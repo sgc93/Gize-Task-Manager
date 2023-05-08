@@ -2,14 +2,26 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.plaf.DesktopIconUI;
+
 
 
 public class Task {
+    String name;
+    String priority;
+    String startDate;
+    String description;
     public Task(){
         
     }
 
-    
+    public Task(String name, String priority, String startDate, String description) {
+        this.name = name;
+        this.priority = priority;
+        this.startDate = startDate;
+        this.description = description;
+    }
+
     public Connection connect(){
         final String URL = "jdbc:sqlite:src\\sqllite\\todo.db";
         Connection con = null;
@@ -73,6 +85,25 @@ public class Task {
         }
     }
 
+    public List<Task> retrieveTasksFromDatabase() throws SQLException {
+        List<Task> tasks = new ArrayList<>();
+        String sql = "SELECT * FROM task";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    String name = rs.getString(2);
+                    String priority = rs.getString(8);
+                    String startDate = rs.getString(4);
+                    String description = rs.getString(9);
+                    Task task = new Task(name, priority, startDate, description);
+                    tasks.add(task);
+                }
+            }
+        }
+        return tasks;
+    }
+
     public void retrievData(String table_name){
         String sql = "SELECT * FROM " + table_name;
         try(
@@ -111,5 +142,21 @@ public class Task {
 
     void delTable(){
 
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getPriority() {
+        return this.priority;
+    }
+
+    public String getStartDate() {
+        return this.startDate;
+    }
+
+    public String getDescription() {
+        return this.description;
     }
 }

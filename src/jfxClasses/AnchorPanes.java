@@ -36,4 +36,7 @@ public class AnchorPanes extends AnchorPane {
         setLeftAnchor(head_hbox, 10.0);
         setRightAnchor(head_hbox, 10.0);
     }
+
+    public AnchorPanes() {
+    }
 }

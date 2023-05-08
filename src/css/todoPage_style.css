@@ -149,3 +149,20 @@
     #00eaff56
   );
 }
+
+#_task_list_view {
+  -fx-background-color: transparent;
+  -fx-cell-size: 10px;
+}
+
+#_task_list_view .scroll-bar {
+  -fx-background-color: linear-gradient(
+    to top right,
+    rgb(0, 174, 255),
+    rgba(0, 38, 255, 0.645)
+  );
+}
+
+#_task_list_view .scroll-bar .thumb {
+  -fx-background-color: #0a034a84;
+}

@@ -4,11 +4,22 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import jfxClasses.*;
 
 public class ToDo {
@@ -29,14 +40,16 @@ public class ToDo {
 
     static Task task = new Task();
     static DatePicker date = new DatePicker();
-    static TextFields task_field;
+    static TextFields task_field = new TextFields();
     static Buttons add_btn = new Buttons("Add", "task_btn", "Add this task");
     
 
     static String formattedtime;
     static String formatteddate;
 
-    static VBoxs task_box = new VBoxs("_task_box");
+    static ObservableList<HBox> tasks = FXCollections.observableArrayList(); 
+    static ListView<HBox> task_list = new ListView<>(tasks);
+    static VBoxs task_box = new VBoxs(task_list, add_btn, "_task_box");
 
     public static AnchorPanes getToDoBoard() {
         // home button
@@ -87,7 +100,8 @@ public class ToDo {
         // task.createTable("task");
         // task.insertValues("task", "Reading About JDBC and Working Project on it, Like to Do List or contact Manager", "2023-05-07", "02:03:04 PM", "2023-05-09", "05:04:05 PM", "No", "H", "daily");
         // task.insertValues("task", "Deploy projects with finished Implementation", "2023-05-07", "02:03:04 PM", "2023-05-09", "05:04:05 PM", "No", "M", "daily");
-        
+        task_list.setId("_task_list_view");
+        // task_list.setPrefWidth(1000);
         String sql = "SELECT * FROM task";
         try(
             Connection con = task.connect();
@@ -104,29 +118,43 @@ public class ToDo {
                     Images delete_img = new Images("resources\\icons\\delete.png");
                     ImageViews delete_img_view = new ImageViews(delete_img);
                     delete_btn.setGraphic(delete_img_view);
+                    VBoxs tsk_btn = new VBoxs(edit_btn, delete_btn);
                     
                     Labels p_label = new Labels("_date_time");
                     CheckBoxs completed = new CheckBoxs("_completed"); 
-                    
-                    Labels time_label = new Labels("_date_time");
                     Labels task_label = new Labels("_task_txt");
-                    VBoxs task_time_box = new VBoxs(time_label, task_label);
+                    
+                    Labels time_label = new Labels("_time_txt");
+                    Labels time_len_label = new Labels("_time_txt");
+                    VBoxs task_time_box = new VBoxs(time_len_label, time_label);
 
                     p_label.setText(rs.getString(8));
                     time_label.setText(rs.getString(4));
                     task_label.setText(rs.getString(2));
+                    time_len_label.setText("1 day ago");
                     
-                    VBoxs tsk_btn = new VBoxs(edit_btn, delete_btn);
-                    HBoxs task_board = new HBoxs(p_label, completed, task_time_box, tsk_btn,"_task_board");
-                    task_box.getChildren().add(task_board);
-            }
-        } catch(SQLException e){
-            System.err.println(e.getMessage());
+                    HBoxs task_board = new HBoxs(p_label, completed,task_label, task_time_box, "_task_board");
+                    task_board.setOnMouseClicked(event -> {
+                            // Get the clicked item
+                            HBox clickedItem = (HBox) task_list.getSelectionModel().getSelectedItem();
+                        
+                            // Get the text values of the four Label objects in the clicked item
+                            String priority = ((Label) clickedItem.getChildren().get(0)).getText();
+                            String taskName = ((Label) clickedItem.getChildren().get(2)).getText();
+                        
+                        TaskDetail taskDetail = new TaskDetail();
+                        taskDetail.setTaskDetails(priority, "2023-04-6", taskName, "fdsfjlsdfjsdfjs");
+                    });
+                    tasks.add(task_board);
+                }
+            } catch(SQLException e){
+                System.err.println(e.getMessage());
         }
     }
+    
+
 
     public static AnchorPanes getNewTaskPage(){
-        task_field = new TextFields();
         HBoxs task_box = new HBoxs(task_field, date, "_new_task_box");
         VBoxs content_area = new VBoxs(task_box, add_btn, "_content_area");
         AnchorPanes todoRoot = new AnchorPanes(getTimeBox(), content_area, "_todoRoot");

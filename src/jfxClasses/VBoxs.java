@@ -1,6 +1,8 @@
 package jfxClasses;
 
 import javafx.geometry.Pos;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class VBoxs extends VBox{
@@ -80,6 +82,14 @@ public class VBoxs extends VBox{
         getChildren().addAll(task_box, add_btn);
         setAlignment(Pos.CENTER);
         setSpacing(30);
+    }
+
+    public VBoxs(ListView<HBox> task_list, Buttons add_btn, String string) {
+        setId(string);
+        getChildren().addAll(task_list, add_btn);
+        setAlignment(Pos.CENTER);
+        setSpacing(50);
+        setPrefWidth(800);
     }
     
 }
