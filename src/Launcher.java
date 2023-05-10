@@ -98,10 +98,15 @@ public class Launcher extends Application {
             String endTime = TaskDetail.endTimeLabel.getText();
             String pri = TaskDetail.priorityLabel.getText();
             String status = TaskDetail.statusLabel.getText();
-            Task.updateRow(TaskDetail.updated_task,task_name, desc, stDate, stTime, endDate, endTime, pri, status);
+            String updated = TaskDetail.updated_task;
+
+            String sql = "UPDATE task SET task_name = '" + task_name + "', st_date = '" + stDate + "', st_time = '"+ stTime + "', end_date = '"+ endDate + "', end_time = '" + endTime + "', iscompleted = '" + status + "', priority = '" + pri + "', task_des = '" + desc + "' WHERE task_name = '" + updated + "'";
+
+            Task.updateRow(sql);
             TaskDetail.taskDetailStage.close();
             ToDo.task_list.getItems().clear();
             ToDo.displayTask();
         });
+
     }    
 }

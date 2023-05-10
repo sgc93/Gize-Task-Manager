@@ -15,6 +15,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -22,6 +23,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import jfxClasses.*;
 
@@ -45,7 +50,7 @@ public class ToDo {
     static TextFields task_field = new TextFields("_new_task");
     static TextFields priority = new TextFields("_new_task");
     static TextAreas desc_field = new TextAreas("_task_desc");
-    static TextFields status_field = new TextFields("Uncompleted", "_new_task");
+    static TextFields status_field = new TextFields("incomplete", "_new_task");
     static TextFields dueTime_field = new TextFields(stTime.format(DateTimeFormatter.ofPattern("hh:mm:ss a")), "_new_task");
     public static Buttons add_btn = new Buttons("Add", "task_btn", "Add this task");
     public static Buttons addNew_btn = new Buttons("_newTsk_btn");
@@ -107,7 +112,7 @@ public class ToDo {
     public static void displayTask(){
 
         // task.createTable("task");
-        // task.insertValues("task", "Reading About JDBC and Working Project on it, Like to Do List or contact Manager", "May 02, 2023", "02:03:04 PM", "May 14, 2023", "05:04:05 PM", "Uncompleted", "High", "with some projects");
+        // task.insertValues("task", "Reading About JDBC and Working Project on it, Like to Do List or contact Manager", "May 02, 2023", "02:03:04 PM", "May 14, 2023", "05:04:05 PM", "done", "High", "with some projects");
         // task.insertValues("task", "Deploy projects with finished Implementation", "May 03, 2023", "02:03:04 PM", "May 13, 2023", "05:04:05 PM", "No", "Midium", "all finished Projects");
         // task_list.setId("_task_list_view");
         
@@ -121,41 +126,92 @@ public class ToDo {
                 while(rs.next()){
                     
                     Labels p_label = new Labels("_pri_txt");
-                    CheckBoxs completed = new CheckBoxs("_completed"); 
+                    CheckBoxs status_checker = new CheckBoxs("_completed"); 
+                    status_checker.setOnAction(event -> {
+                        int box_index = 0;
+                        Label target_label = new Label();
+                        CheckBox target_cb = (CheckBox) event.getSource();
+                        for (HBox hbox : task_list.getItems()) {
+                            CheckBox checkBox = (CheckBox) hbox.getChildren().get(1);
+                            if(target_cb == checkBox){
+                                target_label = (Label) hbox.getChildren().get(2);
+                                box_index = task_list.getItems().indexOf(hbox);
+                            }
+                        }
+                        
+                        String task_txt = target_label.getText();
+                        if(target_cb.isSelected() == true){
+                            String sql_st = "UPDATE task SET iscompleted = 'done' WHERE task_name = '" + task_txt + "'";
+                            Task.updateRow(sql_st);
+                            ((Label) ((VBox) task_list.getItems().get(box_index).getChildren().get(0)).getChildren().get(1)).setText("done");
+                            target_label.setFont(Font.font(10));
+
+                        } else if(target_cb.isSelected() == false){
+                            String sql_st = "UPDATE task SET iscompleted = 'incomplete' WHERE task_name = '" + task_txt + "'";
+                            Task.updateRow(sql_st);
+                            ((Label) ((VBox) task_list.getItems().get(box_index).getChildren().get(0)).getChildren().get(1)).setText("incomplete");
+                            target_label.setFont(Font.font(22));
+                        }
+                    });
+                    Labels status_label = new Labels("_time_txt");
+                    VBoxs status_pri_box = new VBoxs(p_label, status_label);
                     Labels task_label = new Labels("_task_txt");
-                    
                     Labels time_label = new Labels("_time_txt");
                     Labels time_len_label = new Labels("_time_txt");
                     VBoxs task_time_box = new VBoxs(time_len_label, time_label);
 
                     p_label.setText(rs.getString(8));
+                    status_label.setText(rs.getString(7));
                     time_label.setText(rs.getString(4));
                     task_label.setText(rs.getString(2));
                     time_len_label.setText(calcNumDays(today, rs.getString(3)));
-                    
-                    HBoxs task_board = new HBoxs(p_label, completed,task_label, task_time_box, "_task_board");
+
+                    // if(status_label.getText() == "done"){
+                    //     status_checker.setSelected(true);
+                    // } else if(status_label.getText() == "incomplete"){
+                    //     status_checker.setSelected(false);
+                    // } else{
+                    //     System.err.println("Status : " + status_label.getText());
+                    // }
+
+                    HBoxs task_board = new HBoxs(status_pri_box, status_checker,task_label, task_time_box, "_task_board");
                     task_board.setOnMouseClicked(event -> {
                         HBox clickedItem = (HBox) task_list.getSelectionModel().getSelectedItem();
 
-                        String priority = ((Label) clickedItem.getChildren().get(0)).getText();
+            String priority = ((Label) ((VBox) clickedItem.getChildren().get(0)).getChildren().get(0)).getText();
                         String taskName = ((Label) clickedItem.getChildren().get(2)).getText();
-                        
+
                         TaskDetail taskDetail = new TaskDetail();
                         taskDetail.setTaskDetails(priority, "2023-04-6", taskName, "");
                     });
                     
                     tasks.add(task_board);
                 }
-
-                task_list.setItems(tasks);
-
                 
+                task_list.setItems(tasks);
                 int size = task_list.getItems().size();
-                System.out.println(size);
                 if(size < 5){
                     double height = size * 85;
                     task_list.setPrefHeight(height);
                 }
+                
+
+                List<Boolean> status = new ArrayList<Boolean>();
+
+                for(HBox box : task_list.getItems()){
+                    System.out.println(((Label) ((VBox) box.getChildren().get(0)).getChildren().get(1)).getText());
+                    if(((Label) ((VBox) box.getChildren().get(0)).getChildren().get(1)).getText() == "done"){                
+                        status.add(true);
+                        ((CheckBox) box.getChildren().get(1)).setSelected(true);
+                    } else{
+                        status.add(false);
+                        ((CheckBox) box.getChildren().get(1)).setSelected(false);
+                    }
+                }
+                for(int j=0; j<size; j++){
+                    ((CheckBox) task_list.getItems().get(j).getChildren().get(1)).setSelected(status.get(j));
+                }
+
             } catch(SQLException e){
                 System.err.println(e.getMessage());
         }

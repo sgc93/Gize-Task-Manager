@@ -61,9 +61,9 @@ public class HBoxs extends HBox{
     }
 
 
-    public HBoxs(Labels p_label, CheckBoxs completed, Labels task_label, VBoxs task_time_box, String string) {
+    public HBoxs(VBoxs status_pri_box, CheckBoxs completed, Labels task_label, VBoxs task_time_box, String string) {
         setId(string);
-        getChildren().addAll(p_label, completed, task_label, task_time_box);
+        getChildren().addAll(status_pri_box, completed, task_label, task_time_box);
         setAlignment(Pos.CENTER);
         setSpacing(30);
     }

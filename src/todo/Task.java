@@ -97,10 +97,7 @@ public class Task {
         }
     }
 
-    public static void updateRow(String updated, String task_name, String desc, String stDate, String stTime, String endDate,String endTime, String pri, String status) {
-        String sql = "UPDATE task SET task_name = '" + task_name + "', st_date = '" + stDate + "', st_time = '"+ stTime + "', end_date = '"+ endDate + "', end_time = '" + endTime + "', iscompleted = '" + status + "', priority = '" + pri + "', task_des = '" + desc + "' WHERE task_name = '" + updated + "'";
-
-        
+    public static void updateRow(String sql) {
         try(
             Connection con = connect();
             Statement st = con.createStatement();
