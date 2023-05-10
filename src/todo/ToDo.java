@@ -1,9 +1,11 @@
+package todo;
 import java.sql.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -18,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import jfxClasses.*;
@@ -32,26 +35,33 @@ public class ToDo {
     public static Buttons week_btn = new Buttons("Weekly", "task_btn", "Add Weekly tasks");
     public static Buttons month_btn = new Buttons("Monthly", "task_btn", "Add Monthly tasks");
     public static Buttons year_btn = new Buttons("Yearly", "task_btn", "Add Yearly tasks");
-
-    public static Buttons edit_btn = new Buttons("_edit_btn", "tsk_btn");
-    public static Buttons delete_btn = new Buttons("_delete_btn", "tsk_btn");
-
-    public static HBoxs date_time_box;
-
-    static Task task = new Task();
-    static DatePicker date = new DatePicker();
-    static TextFields task_field = new TextFields();
-    static Buttons add_btn = new Buttons("Add", "task_btn", "Add this task");
     
-
+    public static HBoxs date_time_box;
+    
+    static Task task = new Task();
+    static LocalTime stTime = LocalTime.now();
+    static LocalDate today = LocalDate.now();
+    static DatePickers date = new DatePickers("_new_task", today.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy")));
+    static TextFields task_field = new TextFields("_new_task");
+    static TextFields priority = new TextFields("_new_task");
+    static TextAreas desc_field = new TextAreas("_task_desc");
+    static TextFields status_field = new TextFields("Uncompleted", "_new_task");
+    static TextFields dueTime_field = new TextFields(stTime.format(DateTimeFormatter.ofPattern("hh:mm:ss a")), "_new_task");
+    public static Buttons add_btn = new Buttons("Add", "task_btn", "Add this task");
+    public static Buttons addNew_btn = new Buttons("_newTsk_btn");
+    
     static String formattedtime;
     static String formatteddate;
 
-    static ObservableList<HBox> tasks = FXCollections.observableArrayList(); 
-    static ListView<HBox> task_list = new ListView<>(tasks);
-    static VBoxs task_box = new VBoxs(task_list, add_btn, "_task_box");
+    public static ObservableList<HBox> tasks = FXCollections.observableArrayList(); 
+    public static ListView<HBox> task_list = new ListView<>();
+    static VBoxs task_box = new VBoxs(task_list, addNew_btn, "_task_box");
 
     public static AnchorPanes getToDoBoard() {
+        // add new btn (at the buttom)
+        Images add_img = new Images("resources\\icons\\add.png");
+        ImageViews add_img_view = new ImageViews(add_img, 50, 50);
+        addNew_btn.setGraphic(add_img_view);
         // home button
         Images home_img = new Images("resources\\icons\\sgc_home.png");
         ImageViews home_img_view = new ImageViews(home_img);
@@ -90,17 +100,17 @@ public class ToDo {
     
         VBoxs content_area = new VBoxs(date_box,task_box, "_content_area");
         AnchorPanes todoRoot = new AnchorPanes(head_hbox, content_area, "_todoRoot");
-        
-        displayTask(edit_btn, delete_btn);
+        displayTask();
         return todoRoot;
     }
     
-    static void displayTask(Buttons edit_btn,Buttons delete_btn){
+    public static void displayTask(){
 
         // task.createTable("task");
-        // task.insertValues("task", "Reading About JDBC and Working Project on it, Like to Do List or contact Manager", "2023-05-07", "02:03:04 PM", "2023-05-09", "05:04:05 PM", "No", "H", "daily");
-        // task.insertValues("task", "Deploy projects with finished Implementation", "2023-05-07", "02:03:04 PM", "2023-05-09", "05:04:05 PM", "No", "M", "daily");
-        task_list.setId("_task_list_view");
+        // task.insertValues("task", "Reading About JDBC and Working Project on it, Like to Do List or contact Manager", "May 02, 2023", "02:03:04 PM", "May 14, 2023", "05:04:05 PM", "Uncompleted", "High", "with some projects");
+        // task.insertValues("task", "Deploy projects with finished Implementation", "May 03, 2023", "02:03:04 PM", "May 13, 2023", "05:04:05 PM", "No", "Midium", "all finished Projects");
+        // task_list.setId("_task_list_view");
+        
         // task_list.setPrefWidth(1000);
         String sql = "SELECT * FROM task";
         try(
@@ -109,18 +119,8 @@ public class ToDo {
             ResultSet rs = st.executeQuery(sql);
             ){
                 while(rs.next()){
-                    // edit btn
-                    Images edit_img = new Images("resources\\icons\\edit.png");
-                    ImageViews edit_img_view = new ImageViews(edit_img);
-                    edit_btn.setGraphic(edit_img_view);
-            
-                    // delete btn
-                    Images delete_img = new Images("resources\\icons\\delete.png");
-                    ImageViews delete_img_view = new ImageViews(delete_img);
-                    delete_btn.setGraphic(delete_img_view);
-                    VBoxs tsk_btn = new VBoxs(edit_btn, delete_btn);
                     
-                    Labels p_label = new Labels("_date_time");
+                    Labels p_label = new Labels("_pri_txt");
                     CheckBoxs completed = new CheckBoxs("_completed"); 
                     Labels task_label = new Labels("_task_txt");
                     
@@ -131,47 +131,79 @@ public class ToDo {
                     p_label.setText(rs.getString(8));
                     time_label.setText(rs.getString(4));
                     task_label.setText(rs.getString(2));
-                    time_len_label.setText("1 day ago");
+                    time_len_label.setText(calcNumDays(today, rs.getString(3)));
                     
                     HBoxs task_board = new HBoxs(p_label, completed,task_label, task_time_box, "_task_board");
                     task_board.setOnMouseClicked(event -> {
-                            // Get the clicked item
-                            HBox clickedItem = (HBox) task_list.getSelectionModel().getSelectedItem();
-                        
-                            // Get the text values of the four Label objects in the clicked item
-                            String priority = ((Label) clickedItem.getChildren().get(0)).getText();
-                            String taskName = ((Label) clickedItem.getChildren().get(2)).getText();
+                        HBox clickedItem = (HBox) task_list.getSelectionModel().getSelectedItem();
+
+                        String priority = ((Label) clickedItem.getChildren().get(0)).getText();
+                        String taskName = ((Label) clickedItem.getChildren().get(2)).getText();
                         
                         TaskDetail taskDetail = new TaskDetail();
-                        taskDetail.setTaskDetails(priority, "2023-04-6", taskName, "fdsfjlsdfjsdfjs");
+                        taskDetail.setTaskDetails(priority, "2023-04-6", taskName, "");
                     });
+                    
                     tasks.add(task_board);
+                }
+
+                task_list.setItems(tasks);
+
+                
+                int size = task_list.getItems().size();
+                System.out.println(size);
+                if(size < 5){
+                    double height = size * 85;
+                    task_list.setPrefHeight(height);
                 }
             } catch(SQLException e){
                 System.err.println(e.getMessage());
         }
     }
-    
 
+    private static String calcNumDays(LocalDate today, String str_date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy", Locale.ENGLISH);
+        LocalDate date = LocalDate.parse(str_date, formatter);
+        long numOfDay = ChronoUnit.DAYS.between(date, today);
+        String day_len = "today";
+        if(numOfDay == 1){
+            day_len = "1 day ago";
+        } else if(numOfDay > 1){
+            day_len = numOfDay + " days ago";
+        }
+        return day_len;
+    }
 
     public static AnchorPanes getNewTaskPage(){
-        HBoxs task_box = new HBoxs(task_field, date, "_new_task_box");
-        VBoxs content_area = new VBoxs(task_box, add_btn, "_content_area");
+        Labels task_label = new Labels("Task", "_new_task_label");
+        Labels dueDate_label = new Labels("Due Date", "_new_task_label");
+        Labels dueTime_label = new Labels("Due Time", "_new_task_label");
+        Labels pri_label = new Labels("Priority", "_new_task_label");
+        Labels desc_label = new Labels("Description", "_new_task_label");
+        Labels status_label = new Labels("Status", "_new_task_label");
+
+        HBoxs tsk_box = new HBoxs(task_label, task_field, "_tsk_box");
+        HBoxs desc_box = new HBoxs(desc_label, desc_field, "_tsk_box");
+        HBoxs dueDate_box = new HBoxs(dueDate_label, date, "_tsk_box");
+        HBoxs dueTime_box = new HBoxs(dueTime_label, dueTime_field, "_tsk_box");
+        HBoxs pri_box = new HBoxs(pri_label, priority, "_tsk_box");
+        HBoxs status_box = new HBoxs(status_label, status_field, "_tsk_box");
+        VBoxs content_area = new VBoxs(tsk_box, desc_box, dueDate_box, dueTime_box, pri_box, status_box, add_btn, "_content_area");
         AnchorPanes todoRoot = new AnchorPanes(getTimeBox(), content_area, "_todoRoot");
         return todoRoot;
     }
 
     public static void addNewTask(){
-        LocalDate stDate = date.getValue();
+        LocalDate endDate = date.getValue();
         String task_name = task_field.getText();
-        String st_date = formatteddate;
-        String st_time = formattedtime;
-        String end_date = stDate.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"));
+        String st_time = stTime.format(DateTimeFormatter.ofPattern("hh:mm:ss a"));
+        String st_date = today.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"));
+        String end_date = endDate.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"));
         String end_time = st_time;
-        String completed = "No";
-        String priority = "M";
-        String task_type = "daily";
-        task.insertValues("task", task_name, st_date, st_time, end_date, end_time, completed, priority, task_type);
+        String completed = status_field.getText();
+        String pri = priority.getText();
+        String desc = desc_field.getText();
+        task.insertValues("task", task_name, st_date, st_time, end_date, end_time, completed, pri, desc);
     }
 
     public static HBoxs getTimeBox(){

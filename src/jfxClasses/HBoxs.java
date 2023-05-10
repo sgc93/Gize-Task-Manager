@@ -1,5 +1,6 @@
 package jfxClasses;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.HBox;
@@ -59,17 +60,58 @@ public class HBoxs extends HBox{
         setId(id);
     }
 
-    public HBoxs(TextFields task_field, DatePicker date, String classname) {
-        getChildren().addAll(task_field, date);
-        setAlignment(Pos.CENTER);
-        setSpacing(30);
-    }
 
     public HBoxs(Labels p_label, CheckBoxs completed, Labels task_label, VBoxs task_time_box, String string) {
         setId(string);
         getChildren().addAll(p_label, completed, task_label, task_time_box);
         setAlignment(Pos.CENTER);
         setSpacing(30);
+    }
+
+    public HBoxs(Buttons back_btn, HBoxs tsk_btn) {
+        getChildren().addAll(back_btn, tsk_btn);
+        setAlignment(Pos.CENTER_LEFT);
+        setSpacing(300);
+        setPadding(new Insets(0, 0, 0, 50));
+    }
+
+    public HBoxs(TextFields dateLabel, TextFields timeLabel) {
+        getChildren().addAll(dateLabel, timeLabel);
+        setAlignment(Pos.CENTER_LEFT);
+        setSpacing(10);
+    }
+
+    public HBoxs(Labels task_label, TextFields task_field, String classname) {
+        getChildren().addAll(task_label, task_field);
+        getStyleClass().add(classname);
+        setAlignment(Pos.TOP_CENTER);
+        setSpacing(10);
+    }
+
+    public HBoxs(Labels desc_label, TextAreas desc_field, String classname) {
+        getChildren().addAll(desc_label, desc_field);
+        getStyleClass().add(classname);
+        setAlignment(Pos.CENTER);
+        setSpacing(10);
+    }
+
+    public HBoxs(Labels dueDate_label, DatePickers date, String classname) {
+        getChildren().addAll(dueDate_label, date);
+        getStyleClass().add(classname);
+        setAlignment(Pos.CENTER);
+        setSpacing(10);
+    }
+
+    public HBoxs(Labels label, TextFields field) {
+        getChildren().addAll(label, field);
+        setAlignment(Pos.CENTER_LEFT);
+        setSpacing(15);
+    }
+
+    public HBoxs(Labels label, HBoxs date_box) {
+        getChildren().addAll(label, date_box);
+        setAlignment(Pos.CENTER_LEFT);
+        setSpacing(15);
     }
 
 }

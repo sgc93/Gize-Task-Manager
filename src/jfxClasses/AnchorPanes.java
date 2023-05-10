@@ -1,5 +1,6 @@
 package jfxClasses;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
 public class AnchorPanes extends AnchorPane {
     public AnchorPanes(HBoxs nav_area,Buttons logo_btn, VBoxs content_area,String id){
@@ -38,5 +39,10 @@ public class AnchorPanes extends AnchorPane {
     }
 
     public AnchorPanes() {
+    }
+
+    public AnchorPanes(VBox vbox, String id) {
+        setId(id);
+        getChildren().addAll(vbox);
     }
 }

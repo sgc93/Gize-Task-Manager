@@ -1,0 +1,78 @@
+#_detail_root {
+  -fx-background-color: linear-gradient(to left, #5db6cf, #3a4bb9);
+}
+
+.tsk_btn {
+  -fx-background-color: transparent;
+}
+
+.tsk_btn:hover {
+  -fx-translate-y: -3;
+  -fx-background-color: rgba(139, 252, 0, 0.179);
+}
+
+.tsk_btn:armed {
+  -fx-translate-y: 0;
+}
+
+#task_field {
+  -fx-text-fill: rgb(0, 23, 97);
+  -fx-font-size: 20;
+  -fx-font-weight: 800;
+  -fx-pref-width: 900;
+  -fx-background-color: transparent;
+  -fx-border-color: darkblue;
+  -fx-border-width: 2px;
+  -fx-border-radius: 13px;
+}
+
+#desc_field {
+  -fx-text-fill: rgb(0, 23, 97);
+  -fx-font-size: 15;
+  -fx-font-weight: 600;
+  -fx-pref-height: 200;
+}
+
+#_task_vbox {
+  -fx-padding: 0 50px;
+}
+
+#_detail_box {
+  -fx-border-color: transparent;
+  -fx-border-width: 0 0 0 250px;
+}
+
+#_detail1_txt,
+#_detail2_txt {
+  -fx-text-fill: rgb(255, 255, 255);
+  -fx-font-size: 18;
+  -fx-font-weight: 600;
+  -fx-pref-width: 120;
+
+  -fx-background-color: rgba(0, 0, 0, 0.118);
+  -fx-border-color: rgba(0, 0, 0, 0.503);
+  -fx-border-width: 0 3px 0 0;
+}
+
+#_detail2_txt {
+  -fx-border-width: 0 0 0 0;
+}
+
+#label_txt {
+  -fx-text-fill: white;
+  -fx-background-color: rgba(0, 0, 0, 0.118);
+  -fx-border-color: rgba(0, 0, 0, 0.503);
+  -fx-border-width: 0 0 0 3px;
+  -fx-font-size: 13;
+  -fx-font-weight: 400;
+}
+
+#detail_label_txt {
+  -fx-text-fill: white;
+  -fx-background-color: rgba(0, 0, 0, 0.118);
+  -fx-border-color: rgba(0, 0, 0, 0.503);
+  -fx-border-width: 0 0 0 3px;
+  -fx-font-size: 13;
+  -fx-font-weight: 400;
+  -fx-pref-width: 110;
+}

@@ -1,7 +1,11 @@
 package jfxClasses;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -57,12 +61,6 @@ public class VBoxs extends VBox{
         setSpacing(20);
     }
 
-    public VBoxs(Buttons edit_btn, Buttons delete_btn) {
-        getChildren().addAll(edit_btn, delete_btn);
-        setAlignment(Pos.CENTER);
-        setSpacing(20);
-    }
-
     public VBoxs(HBoxs task_board, String string) {
         setId(string);
         getChildren().addAll(task_board);
@@ -77,13 +75,6 @@ public class VBoxs extends VBox{
         getChildren().addAll(task_field, date, add_btn);
     }
 
-    public VBoxs(HBoxs task_box, Buttons add_btn, String id) {
-        setId(id);
-        getChildren().addAll(task_box, add_btn);
-        setAlignment(Pos.CENTER);
-        setSpacing(30);
-    }
-
     public VBoxs(ListView<HBox> task_list, Buttons add_btn, String string) {
         setId(string);
         getChildren().addAll(task_list, add_btn);
@@ -91,5 +82,34 @@ public class VBoxs extends VBox{
         setSpacing(50);
         setPrefWidth(800);
     }
-    
+
+    public VBoxs(HBoxs detail_btn, VBox task_vbox, VBox detail_vbox, String id) {
+        setId(id);
+        getChildren().addAll(detail_btn, task_vbox, detail_vbox);
+        setAlignment(Pos.CENTER);
+        setSpacing(20);
+    }
+
+    public VBoxs(HBoxs priorityLabel, HBoxs startDateLabel, HBoxs endDateLabel, HBoxs statusLabel, String id) {
+        setId(id);
+        getChildren().addAll(priorityLabel, startDateLabel, endDateLabel, statusLabel);
+        setAlignment(Pos.CENTER_LEFT);
+        setSpacing(7);
+        setPrefWidth(300);
+        setPadding(new Insets(0, 0, 0, 50));
+    }
+
+    public VBoxs(Label taskLabel, TextField taskField, Label descriptionLabel, TextArea descriptionField, String string) {
+        setId(string);
+        getChildren().addAll(taskLabel, taskField, descriptionLabel, descriptionField);
+        setAlignment(Pos.CENTER_LEFT);
+        setSpacing(15);
+    }
+
+    public VBoxs(HBoxs tsk_box, HBoxs desc_box, HBoxs dueDate_box, HBoxs dueTime_box, HBoxs pri_box, HBoxs status_box, Buttons add_btn, String id) {
+        setId(id);
+        getChildren().addAll(tsk_box, desc_box, dueDate_box, dueTime_box, pri_box, status_box, add_btn);
+        setAlignment(Pos.CENTER);
+        setSpacing(30);
+    }
 }

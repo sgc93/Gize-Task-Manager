@@ -69,7 +69,7 @@ public class NewPage {
 
         todo_btn = new Buttons("To Do List", "new_btn", "add new to do list manager");
         note_btn = new Buttons("Take Note", "new_btn", "take a new note");
-        team_btn = new Buttons("Team work", "new_btn", "get some help");
+        team_btn = new Buttons("Sticky Note", "new_btn", "get some help");
 
         VBoxs content_area = new VBoxs(todo_btn, note_btn, team_btn, "_content_area");
         AnchorPanes newRoot = new AnchorPanes(nav_hbox, logo_btn, content_area, "_newRoot");
