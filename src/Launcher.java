@@ -1,6 +1,9 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import todo.Task;
+import todo.TaskDetail;
+import todo.ToDo;
 
 public class Launcher extends Application {
     Scene homeScene;
@@ -19,6 +22,12 @@ public class Launcher extends Application {
         newScene.getStylesheets().add(getClass().getResource("css\\newPage_style.css").toExternalForm());
         homeScene = new Scene(Home.getHomeRoot(), 1400, 700);
         homeScene.getStylesheets().add(getClass().getResource("css\\home_style.css").toExternalForm());
+        todoScene = new Scene(ToDo.getToDoBoard(), 1400, 700);
+        
+            new_task_Scene = new Scene(ToDo.getNewTaskPage(), 650, 700);
+    new_task_Scene.getStylesheets().add(getClass().getResource("css\\todoPage_style.css").toExternalForm());
+            Stage newTaskStage = new Stage();
+    todoScene.getStylesheets().add(getClass().getResource("css\\todoPage_style.css").toExternalForm());
         HomeStage.setScene(homeScene);
         HomeStage.getIcons().add(Home.gize_logo);
         HomeStage.setTitle("Wellcome to Gize Manager    |   Home Page");
@@ -41,8 +50,6 @@ public class Launcher extends Application {
         });
 
         NewPage.todo_btn.setOnAction(event -> {
-            todoScene = new Scene(ToDo.getToDoBoard(), 1400, 700);
-        todoScene.getStylesheets().add(getClass().getResource("css\\todoPage_style.css").toExternalForm());
             HomeStage.setScene(todoScene);
             HomeStage.setTitle("Add a new To Do task");
         });
@@ -57,23 +64,44 @@ public class Launcher extends Application {
         });
 
         ToDo.new_task_btn.setOnAction(event -> {
-            new_task_Scene = new Scene(ToDo.getNewTaskPage(), 800, 400);
-    new_task_Scene.getStylesheets().add(getClass().getResource("css\\todoPage_style.css").toExternalForm());
-            Stage newTaskStage = new Stage();
             newTaskStage.setScene(new_task_Scene);
             newTaskStage.show();
         });
 
+        ToDo.addNew_btn.setOnAction(event -> {
+            newTaskStage.setScene(new_task_Scene);
+            newTaskStage.show();
+        });
+        
         ToDo.add_btn.setOnAction(event -> {
             ToDo.addNewTask();
-            HomeStage.close();
-            ToDo.getToDoBoard();
-            HomeStage.show();
+            newTaskStage.close();
+            TaskDetail.taskDetailStage.close();
+            ToDo.task_list.getItems().clear();
+            ToDo.displayTask();
         });
 
-    }
+        TaskDetail.delete_btn.setOnAction(event -> {
+            String txt = TaskDetail.taskField.getText();
+            Task.delRow(txt);
+            TaskDetail.taskDetailStage.close();
+            ToDo.task_list.getItems().clear();
+            ToDo.displayTask();
+        });
 
-    
-
-    
+        TaskDetail.save_btn.setOnAction(event -> {
+            String task_name = TaskDetail.taskField.getText();
+            String desc = TaskDetail.descriptionField.getText();
+            String stDate = TaskDetail.startDateLabel.getText();
+            String endDate = TaskDetail.endDateLabel.getText();
+            String stTime = TaskDetail.startTimeLabel.getText();
+            String endTime = TaskDetail.endTimeLabel.getText();
+            String pri = TaskDetail.priorityLabel.getText();
+            String status = TaskDetail.statusLabel.getText();
+            Task.updateRow(TaskDetail.updated_task,task_name, desc, stDate, stTime, endDate, endTime, pri, status);
+            TaskDetail.taskDetailStage.close();
+            ToDo.task_list.getItems().clear();
+            ToDo.displayTask();
+        });
+    }    
 }

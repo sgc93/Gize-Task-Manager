@@ -1,0 +1,7 @@
+            
+# Ignore Visual Studio Code directory
+.vscode/
+
+# Ignore compiled binary files
+bin/
+            
