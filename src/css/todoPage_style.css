@@ -78,9 +78,9 @@
 #_task_board {
   -fx-background-color: linear-gradient(
     to left,
-    rgba(36, 0, 255, 0.14),
-    rgba(0, 255, 240, 1),
-    rgba(36, 0, 255, 0.14)
+    rgba(34, 0, 255, 0.679),
+    rgb(7, 78, 96),
+    rgba(34, 0, 255, 0.679)
   );
   -fx-padding: 10;
 }

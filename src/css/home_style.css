@@ -25,17 +25,33 @@
   -fx-pref-height: 50;
 }
 
-.nav_btn:hover {
+.nav_btn:hover,
+#_search_btn:hover {
   -fx-background-color: rgba(255, 255, 255, 0.245);
 }
 
 #_home_btn:armed,
-.nav_btn:armed {
+.nav_btn:armed,
+#_search_btn:armed {
   -fx-background-color: rgba(255, 255, 255, 0.427);
 }
 
 #_home_btn {
   -fx-background-color: rgba(255, 255, 255, 0.245);
+}
+
+#_search_btn {
+  -fx-background-color: transparent;
+}
+#_search_field {
+  -fx-background-color: transparent;
+  -fx-border-color: rgba(255, 255, 255, 0.782);
+  -fx-border-radius: 23px;
+  -fx-pref-width: 200;
+  -fx-pref-height: 30;
+  -fx-text-fill: White;
+  -fx-font-size: 16;
+  -fx-font-weight: 500;
 }
 
 #btn_txt {
