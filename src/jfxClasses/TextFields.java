@@ -4,7 +4,6 @@ import javafx.scene.control.TextField;
 
 public class TextFields extends TextField{
     public TextFields(){
-
     }
 
     public TextFields(String id) {

@@ -14,9 +14,9 @@ public class HBoxs extends HBox{
         setSpacing(15);
     }
 
-    public HBoxs(Buttons home_btn,Buttons  new_btn,Buttons  open_btn,Buttons search_btn,Buttons  mode_btn, String id) {
+    public HBoxs(Buttons home_btn,Buttons  new_btn,Buttons  open_btn,HBoxs search_box,Buttons  mode_btn, String id) {
         setId(id);
-        getChildren().addAll(home_btn, new_btn, open_btn, search_btn, mode_btn);
+        getChildren().addAll(home_btn, new_btn, open_btn, mode_btn, search_box);
         setAlignment(Pos.CENTER);
         setSpacing(50);
     }
@@ -112,6 +112,31 @@ public class HBoxs extends HBox{
         getChildren().addAll(label, date_box);
         setAlignment(Pos.CENTER_LEFT);
         setSpacing(15);
+    }
+
+    public HBoxs(Buttons search_btn, TextFields search_field, String classname) {
+        getChildren().addAll(search_btn, search_field);
+        setAlignment(Pos.CENTER);
+        setSpacing(10);
+    }
+
+    public HBoxs(Buttons new_note_btn, Buttons imp_btn, Buttons all_btn, String id) {
+        getChildren().addAll(new_note_btn, imp_btn, all_btn);
+        setAlignment(Pos.CENTER);
+        setSpacing(15);
+    }
+
+    public HBoxs(Labels status_label, Labels name_label, VBoxs task_time_box, String id) {
+        getChildren().addAll(status_label, name_label, task_time_box);
+        setAlignment(Pos.CENTER);
+        setSpacing(30);
+        setId(id);
+    }
+
+    public HBoxs(Labels status_label, CheckBoxs status_checker, String classname) {
+        getChildren().addAll(status_label, status_checker);
+        setAlignment(Pos.CENTER_LEFT);
+        setSpacing(10);
     }
 
 }

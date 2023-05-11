@@ -112,4 +112,10 @@ public class VBoxs extends VBox{
         setAlignment(Pos.CENTER);
         setSpacing(30);
     }
+
+    public VBoxs(HBoxs topic_box, HBoxs detail_box, HBoxs status_box, Buttons add_btn, String string) {
+        getChildren().addAll(topic_box, detail_box, status_box, add_btn);
+        setAlignment(Pos.CENTER);
+        setSpacing(30);
+    }
 }
