@@ -57,7 +57,7 @@ public class NewPage {
         mode_btn = new Buttons("_mode_btn", "nav_btn");
         mode_btn.setGraphic(mode_hbox);
 
-        HBoxs nav_hbox = new HBoxs(home_btn, new_btn, open_btn, search_btn, mode_btn, "_nav_hbox");
+        HBoxs nav_hbox = new HBoxs(home_btn, new_btn, open_btn, search_hbox, mode_btn, "_nav_hbox");
 
         // Logo button
         Images logo = new Images("resources\\icons\\sgc_gize.png");
