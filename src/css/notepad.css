@@ -1,0 +1,222 @@
+#_noteRoot {
+  -fx-background-color: linear-gradient(to left, #5db6cf, #3a4bb9);
+}
+
+#_date_time_box {
+  -fx-background-color: linear-gradient(to left, #d9d9d982, #7a41cf, #d9d9d982);
+}
+
+#_date_time {
+  -fx-text-fill: white;
+  -fx-font-size: 20;
+  -fx-font-weight: 700;
+}
+
+#_content_area {
+  -fx-border-color: white;
+  -fx-border-width: 4px 0 0 0;
+  -fx-background-color: rgba(255, 255, 255, 0.116);
+}
+
+.note_btn {
+  -fx-background-color: rgba(0, 195, 255, 0.382);
+  -fx-text-fill: White;
+  -fx-font-size: 20;
+  -fx-font-weight: 600;
+  -fx-border-color: white;
+  -fx-border-width: 0 0 0 4px;
+}
+
+.note_btn:hover {
+  -fx-background-color: rgba(0, 195, 255, 0.757);
+  -fx-border-color: rgba(255, 255, 255, 0.862);
+}
+
+.note_btn:armed {
+  -fx-background-color: rgba(0, 195, 255, 0.382);
+  -fx-border-color: white;
+}
+
+#_today_note {
+  -fx-text-fill: rgb(0, 56, 93);
+  -fx-font-size: 24;
+  -fx-font-weight: 800;
+}
+
+#_today {
+  -fx-text-fill: rgb(102, 0, 255);
+  -fx-font-size: 20;
+  -fx-font-weight: 800;
+}
+
+#_today_box {
+  -fx-border-color: rgba(0, 158, 108, 0.669);
+  -fx-border-width: 1px;
+  -fx-border-radius: 24px;
+  -fx-padding: 10;
+}
+
+.tsk_btn {
+  -fx-background-color: transparent;
+}
+
+.tsk_btn:hover {
+  -fx-translate-y: -3;
+  -fx-background-color: rgba(139, 252, 0, 0.179);
+}
+
+.tsk_btn:armed {
+  -fx-translate-y: 0;
+}
+#_note_txt {
+  -fx-text-fill: white;
+  -fx-font-size: 25;
+  -fx-font-weight: 800;
+  -fx-pref-width: 1000;
+}
+
+#_note_board {
+  -fx-background-color: linear-gradient(
+    to left,
+    rgba(34, 0, 255, 0.679),
+    rgb(7, 78, 96),
+    rgba(34, 0, 255, 0.679)
+  );
+  -fx-padding: 10;
+}
+
+#_note_box {
+  -fx-padding: 0 50px;
+}
+
+#_completed {
+}
+
+.nav_btn,
+#_logo_btn {
+  -fx-background-color: transparent;
+  -fx-pref-width: 170;
+  -fx-pref-height: 50;
+}
+
+.nav_btn:hover {
+  -fx-background-color: linear-gradient(to right, #00a2ff5e, #aeff00);
+}
+
+#_new_btn:armed,
+.nav_btn:armed {
+  -fx-background-color: linear-gradient(to right, #aeff00, #00a2ff5e);
+}
+
+#_new_btn {
+  -fx-background-color: linear-gradient(to right, #00a2ff5e, #aeff00);
+}
+
+#btn_txt {
+  -fx-fill: white;
+  -fx-font-size: 20;
+  -fx-font-weight: 700;
+}
+
+#_logo_btn:hover {
+  -fx-translate-y: -5;
+}
+
+#_logo_btn:armed {
+  -fx-translate-y: 0;
+  -fx-background-color: rgba(34, 4, 4, 0.412);
+}
+
+.new_btn {
+  -fx-background-color: rgba(255, 255, 255, 0.204);
+  -fx-text-fill: white;
+  -fx-font-size: 20;
+  -fx-font-weight: 800;
+  -fx-pref-width: 200;
+  -fx-border-color: rgb(127, 213, 28);
+  -fx-border-width: 0 0 0 8px;
+}
+
+.new_btn:hover {
+  -fx-background-color: linear-gradient(to right, #00a2ff5e, #aeff00);
+}
+
+.new_btn:armed {
+  -fx-background-color: linear-gradient(
+    to right,
+    #00eaff56,
+    #ff00dd5a,
+    #00eaff56
+  );
+}
+
+#_note_list_view {
+  -fx-background-color: transparent;
+  -fx-cell-size: 10px;
+}
+
+#_note_list_view .scroll-bar {
+  -fx-background-color: linear-gradient(
+    to top right,
+    rgb(0, 174, 255),
+    rgba(0, 38, 255, 0.645)
+  );
+}
+
+#_note_list_view .scroll-bar .thumb {
+  -fx-background-color: #0a034a84;
+}
+
+#_new_note_label {
+  -fx-background-color: rgba(0, 0, 0, 0.2);
+  -fx-border-color: black;
+  -fx-text-fill: black;
+  -fx-font-weight: 600;
+  -fx-border-width: 0 0 0 3px;
+  -fx-pref-height: 30;
+  -fx-pref-width: 90;
+  -fx-padding: 5;
+}
+
+#_new_note,
+#_note_desc {
+  -fx-background-color: rgba(0, 0, 0, 0.2);
+  -fx-border-color: black;
+  -fx-text-fill: black;
+  -fx-font-weight: 800;
+  -fx-border-width: 0 0 0 3px;
+  -fx-pref-width: 450;
+  -fx-padding: 5;
+}
+
+#_new_note {
+  -fx-pref-height: 30;
+}
+
+#_note_desc {
+  -fx-pref-height: 150;
+}
+
+#_newTsk_btn {
+  -fx-padding: 1px;
+  -fx-background-color: transparent;
+  -fx-border-color: rgb(0, 36, 52);
+  -fx-border-width: 0 0 1px 0;
+  -fx-border-radius: 200;
+}
+
+#_newTsk_btn:hover {
+  -fx-border-width: 0 0 3px 0;
+}
+
+#_newTsk_btn:armed {
+  -fx-translate-y: 2;
+  -fx-border-width: 3px;
+}
+
+#_pri_txt {
+  -fx-pref-width: 60;
+  -fx-text-fill: black;
+  -fx-font-size: 12;
+  -fx-font-weight: 500;
+}
