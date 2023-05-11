@@ -1,15 +1,17 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import note.Notepad;
 import todo.Task;
 import todo.TaskDetail;
 import todo.ToDo;
 
 public class Launcher extends Application {
     Scene homeScene;
-    static Scene newScene;
+    static Scene noteScene;
     Scene todoScene;
     Scene new_task_Scene;
+    Scene new_note_Scene;
     public static void main(String[] args) throws Exception {
         
         launch(args);
@@ -18,15 +20,18 @@ public class Launcher extends Application {
     @Override
     public void start(Stage HomeStage) throws Exception {
     
-        newScene = new Scene(NewPage.getNewPage(), 1400, 700);
-        newScene.getStylesheets().add(getClass().getResource("css\\newPage_style.css").toExternalForm());
+        noteScene = new Scene(Notepad.getToDoBoard(), 1400, 700);
+        noteScene.getStylesheets().add(getClass().getResource("css\\notepad.css").toExternalForm());
         homeScene = new Scene(Home.getHomeRoot(), 1400, 700);
         homeScene.getStylesheets().add(getClass().getResource("css\\home_style.css").toExternalForm());
         todoScene = new Scene(ToDo.getToDoBoard(), 1400, 700);
         
-            new_task_Scene = new Scene(ToDo.getNewTaskPage(), 650, 700);
+        new_task_Scene = new Scene(ToDo.getNewTaskPage(), 650, 700);
+        new_note_Scene = new Scene(Notepad.getNewNotePage(), 650, 700);
     new_task_Scene.getStylesheets().add(getClass().getResource("css\\todoPage_style.css").toExternalForm());
-            Stage newTaskStage = new Stage();
+    new_note_Scene.getStylesheets().add(getClass().getResource("css\\notepad.css").toExternalForm());
+        Stage newTaskStage = new Stage();
+        Stage newNoteStage = new Stage();
     todoScene.getStylesheets().add(getClass().getResource("css\\todoPage_style.css").toExternalForm());
         HomeStage.setScene(homeScene);
         HomeStage.getIcons().add(Home.gize_logo);
@@ -34,28 +39,20 @@ public class Launcher extends Application {
         HomeStage.setOnCloseRequest(event -> System.out.println("Are you sure?"));
         HomeStage.show();
         
-        NavArea.new_btn.setOnAction(event -> {
-            HomeStage.setScene(newScene);
+        Home.todo_btn.setOnAction(event -> {
+            HomeStage.setScene(todoScene);
+            HomeStage.setTitle("Add New ...");
+        });
+        
+        Home.note_btn.setOnAction(event -> {
+            HomeStage.setScene(noteScene);
             HomeStage.setTitle("Add New ...");
         });
 
-        NewPage.home_btn.setOnAction(event -> {
-            HomeStage.setScene(homeScene);
-            HomeStage.setTitle("Wellcome to Gize Manager    |   Home Page");
-        });
-
-        NewPage.logo_btn.setOnAction(event -> {
-            HomeStage.setScene(homeScene);
-            HomeStage.setTitle("Wellcome to Gize Manager    |   Home Page");
-        });
-
-        NewPage.todo_btn.setOnAction(event -> {
-            HomeStage.setScene(todoScene);
-            HomeStage.setTitle("Add a new To Do task");
-        });
+        // for todo list board buttons
 
         ToDo.back_btn.setOnAction(event -> {
-            HomeStage.setScene(newScene);
+            HomeStage.setScene(homeScene);
             HomeStage.setTitle("Add New ...");
         });
         ToDo.home_btn.setOnAction(event -> {
@@ -80,6 +77,8 @@ public class Launcher extends Application {
             ToDo.task_list.getItems().clear();
             ToDo.displayTask();
         });
+        
+        // for task detail window buttons
 
         TaskDetail.delete_btn.setOnAction(event -> {
             String txt = TaskDetail.taskField.getText();
@@ -107,6 +106,35 @@ public class Launcher extends Application {
             ToDo.task_list.getItems().clear();
             ToDo.displayTask();
         });
+
+        // for note list board buttons
+
+        Notepad.back_btn.setOnAction(event -> {
+            HomeStage.setScene(homeScene);
+            HomeStage.setTitle("Add New ...");
+        });
+        Notepad.home_btn.setOnAction(event -> {
+            HomeStage.setScene(homeScene);
+            HomeStage.setTitle("Wellcome to Gize Manager    |   Home Page");
+        });
+
+        Notepad.new_note_btn.setOnAction(event -> {
+            newNoteStage.setScene(new_note_Scene);
+            newNoteStage.show();
+        });
+
+        Notepad.addNew_btn.setOnAction(event -> {
+            newNoteStage.setScene(new_task_Scene);
+            newNoteStage.show();
+        });
+        
+        // Notepad.add_btn.setOnAction(event -> {
+        //     Notepad.addNewTask();
+        //     newTaskStage.close();
+        //     TaskDetail.taskDetailStage.close();
+        //     Notepad.task_list.getItems().clear();
+        //     Notepad.displayTask();
+        // });
 
     }    
 }
