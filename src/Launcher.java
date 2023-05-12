@@ -1,6 +1,10 @@
+import java.time.format.DateTimeFormatter;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import note.Note;
+import note.NoteDetail;
 import note.Notepad;
 import todo.Task;
 import todo.TaskDetail;
@@ -27,7 +31,7 @@ public class Launcher extends Application {
         todoScene = new Scene(ToDo.getToDoBoard(), 1400, 700);
         
         new_task_Scene = new Scene(ToDo.getNewTaskPage(), 650, 700);
-        new_note_Scene = new Scene(Notepad.getNewNotePage(), 650, 700);
+        new_note_Scene = new Scene(Notepad.getNewNotePage(), 1000, 700);
     new_task_Scene.getStylesheets().add(getClass().getResource("css\\todoPage_style.css").toExternalForm());
     new_note_Scene.getStylesheets().add(getClass().getResource("css\\notepad.css").toExternalForm());
         Stage newTaskStage = new Stage();
@@ -77,6 +81,13 @@ public class Launcher extends Application {
             ToDo.task_list.getItems().clear();
             ToDo.displayTask();
         });
+
+        ToDo.com_btn.setOnAction(event -> {
+            ToDo.com_btn.setStyle("-fx-backgournd-color: blue;");
+            ToDo.task_list.getItems().clear();
+            ToDo.sql_board = "SELECT * FROM task WHERE  = 'important'";
+            ToDo.displayTask();
+        });
         
         // for task detail window buttons
 
@@ -124,17 +135,61 @@ public class Launcher extends Application {
         });
 
         Notepad.addNew_btn.setOnAction(event -> {
-            newNoteStage.setScene(new_task_Scene);
+            newNoteStage.setScene(new_note_Scene);
             newNoteStage.show();
         });
         
-        // Notepad.add_btn.setOnAction(event -> {
-        //     Notepad.addNewTask();
-        //     newTaskStage.close();
-        //     TaskDetail.taskDetailStage.close();
-        //     Notepad.task_list.getItems().clear();
-        //     Notepad.displayTask();
-        // });
+        Notepad.add_btn.setOnAction(event -> {
+            Notepad.addNewnote();
+            newNoteStage.close();
+            TaskDetail.taskDetailStage.close();
+            Notepad.note_list.getItems().clear();
+            Notepad.displayNote();
+        });
 
+        Notepad.imp_btn.setOnAction(event -> {
+            Notepad.imp_btn.setStyle("-fx-backgournd-color: blue;");
+            Notepad.note_list.getItems().clear();
+            Notepad.sql_board = "SELECT * FROM note WHERE isimportant = 'important'";
+            Notepad.displayNote();
+        });
+
+        Notepad.all_btn.setOnAction(event -> {
+            Notepad.imp_btn.setStyle("-fx-backgournd-color: blue;");
+            Notepad.note_list.getItems().clear();
+            Notepad.sql_board = "SELECT * FROM note";
+            Notepad.displayNote();
+        });
+
+        // for note detail buttons
+
+        // for task detail window buttons
+
+        NoteDetail.delete_btn.setOnAction(event -> {
+            String txt = NoteDetail.topic_field.getText();
+            Note.delRow(txt);
+            NoteDetail.NoteDetailStage.close();
+            Notepad.note_list.getItems().clear();
+            Notepad.displayNote();
+        });
+
+        NoteDetail.save_btn.setOnAction(event -> {
+            String note_name = NoteDetail.topic_field.getText();
+            String note_detail = NoteDetail.detail_field.getText();
+            String editDate = NoteDetail.today.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"));
+            String editTime = NoteDetail.now.format(DateTimeFormatter.ofPattern("hh:mm:ss a"));
+            String status = "normal";
+            if(NoteDetail.imp_check.isSelected()){
+                status = "important";
+            }
+
+            String sql = "UPDATE note SET note_name = '" + note_name + "', note_detail = '" + note_detail + "', ed_date = '"+ editDate + "', ed_time = '" + editTime + "', isimportant = '" + status + "' WHERE note_name = '" + NoteDetail.updated_NoteName + "'";
+            System.out.println(sql);
+
+            Note.updateRow(sql);
+            NoteDetail.NoteDetailStage.close();
+            Notepad.note_list.getItems().clear();
+            Notepad.displayNote();
+        });
     }    
 }
