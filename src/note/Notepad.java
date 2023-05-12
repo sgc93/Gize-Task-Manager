@@ -17,6 +17,7 @@ import jfxClasses.*;
 import todo.ToDo;
 
 public class Notepad {
+    public static String sql_board = "SELECT * FROM note";
     public static Buttons home_btn = new Buttons("_home_btn", "nav_btn");
     public static Buttons  back_btn = new Buttons("_back_btn", "nav_btn");
 
@@ -29,20 +30,20 @@ public class Notepad {
     static Note note = new Note();
     static LocalTime stTime = LocalTime.now();
     static LocalDate today = LocalDate.now();
+    public static String formattedtime = today.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"));
+    public static String formatteddate = stTime.format(DateTimeFormatter.ofPattern("hh:mm:ss a"));
 
     static DatePickers date = new DatePickers("_new_note", today.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy")));
 
-    static TextFields note_field = new TextFields("_new_note");
+    static TextFields topic_field = new TextFields("_new_note");
     static TextFields priority = new TextFields("_new_note");
     static TextAreas detail_field = new TextAreas("_note_desc");
-    static TextFields status_field = new TextFields("incomplete", "_new_note");
+    static TextFields status_field = new TextFields("normal", "_new_note");
     static TextFields dueTime_field = new TextFields(stTime.format(DateTimeFormatter.ofPattern("hh:mm:ss a")), "_new_note");
     public static Buttons add_btn = new Buttons("Add", "note_btn", "Add this note");
     public static CheckBoxs status_checker = new CheckBoxs("_status_checker");
     public static Buttons addNew_btn = new Buttons("_newTsk_btn");
     
-    static String formattedtime;
-    static String formatteddate;
 
     public static ObservableList<HBox> notes = FXCollections.observableArrayList(); 
     public static ListView<HBox> note_list = new ListView<>();
@@ -89,38 +90,58 @@ public class Notepad {
     
     public static void displayNote(){
 
-        note.createTable("note");
-        note.insertValues("note","Minab Tech", "I have to do the given reading assignment in this 4 days, actually including today.", "May 11, 2023", "08:37:23 PM", "unedited", "unedited", "yes");
-        note.insertValues("note","Ways of Deploying Desktop app", "1. I WebStart: Java WebStart allows you to deploy your application via a web page. This method is suitable for smaller applications.\n2. Java applet: Java applets are small Java applications that run within a web browser. They are suitable for simple applications.\n3. Java Web Server: Java web servers like Apache Tomcat can be used to deploy Java applications. This method is suitable for larger applications.\n4. Java Web Frameworks: Java web frameworks like Spring and Struts can also be used to deploy Java applications.", "May 11, 2023", "08:37:23 PM", "unedited", "unedited", "yes");
-        // note_list.setId("_note_list_view");
-        
-        // note_list.setPrefWidth(1000);
-        String sql = "SELECT * FROM note";
+        // note.createTable("note");
+        // note.insertValues("note","Minab Tech", "I have to do the given reading assignment in this 4 days, actually including today.", "May 02, 2023", "02:02:02 AM", "", "", "important");
+        // note.insertValues("note","Ways of Deploying Desktop app", "1. I WebStart: Java WebStart allows you to deploy your application via a web page. This method is suitable for smaller applications.\n2. Java applet: Java applets are small Java applications that run within a web browser. They are suitable for simple applications.\n3. Java Web Server: Java web servers like Apache Tomcat can be used to deploy Java applications. This method is suitable for larger applications.\n4. Java Web Frameworks: Java web frameworks like Spring and Struts can also be used to deploy Java applications.", "May 11, 2023", "08:37:23 PM", "", "", "normal");
         try(
             Connection con = note.connect();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(sql);
+            ResultSet rs = st.executeQuery(sql_board);
             ){
                 while(rs.next()){
-                    Labels status_label = new Labels("I");
+                    Labels status_label = new Labels("_status_label");
                     Labels name_label = new Labels("_name_txt");
-                    Labels st_time_label = new Labels("_time_txt");
+                    Labels ed_time_label = new Labels("_time_txt");
                     Labels time_len_label = new Labels("_time_txt");
-                    VBoxs note_time_box = new VBoxs(st_time_label,time_len_label);
+                    VBoxs note_time_box = new VBoxs(ed_time_label,time_len_label);
 
                     name_label.setText(rs.getString(2));
-                    status_label.setText(rs.getString(7));
-                    st_time_label.setText(rs.getString(5));
-                    time_len_label.setText(calcNumDays(today, rs.getString(4)));
+                    status_label.setText(rs.getString(8));
+                    String st_date = rs.getString(4);
+                    String st_time = rs.getString(5);
+                    String ed_time = rs.getString(7);
+                    String ed_date = rs.getString(6);
+                    if(ed_time.equals("") && ed_time.equals("")) {
+                        String day_len = "taken, today";
+                        long numOfDay = calcNumDays(today, rs.getString(4));
+                        if(numOfDay == 1){
+                            day_len = "taken, 1 day ago";
+                        } else if(numOfDay > 1){
+                            day_len = "taken, " + numOfDay + " days ago";
+                        }
+                        time_len_label.setText(day_len);
+                        ed_time_label.setText(rs.getString(5));
+                    } else {
+                        String day_len = "edited, today";
+                        long numOfDay = calcNumDays(today, rs.getString(6));
+                        if(numOfDay == 1){
+                            day_len = "edited, 1 day ago";
+                        }
+                        if(numOfDay > 1){
+                            day_len = "edited, " + numOfDay + " days ago";
+                        }
+                        time_len_label.setText(day_len);
+                        ed_time_label.setText(rs.getString(7));
+                    }
 
 
                     HBoxs note_board = new HBoxs(status_label,name_label, note_time_box, "_note_board");
                     note_board.setOnMouseClicked(event -> {
                         HBox clickedItem = (HBox) note_list.getSelectionModel().getSelectedItem();
-                        String noteName = ((Label) clickedItem.getChildren().get(2)).getText();
+                        String noteName = ((Label) clickedItem.getChildren().get(1)).getText();
 
-                        // NoteDetail noteDetail = new NoteDetail();
-                        // noteDetail.setNoteDetails(noteName);
+                        NoteDetail noteDetail = new NoteDetail();
+                        noteDetail.setNoteDetails(noteName);
                     });
                     
                     notes.add(note_board);
@@ -138,26 +159,24 @@ public class Notepad {
         }
     }
 
-    private static String calcNumDays(LocalDate today, String str_date) {
+    static long calcNumDays(LocalDate today, String str_date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy", Locale.ENGLISH);
+        System.out.println(str_date);
         LocalDate date = LocalDate.parse(str_date, formatter);
         long numOfDay = ChronoUnit.DAYS.between(date, today);
-        String day_len = "today";
-        if(numOfDay == 1){
-            day_len = "1 day ago";
-        } else if(numOfDay > 1){
-            day_len = numOfDay + " days ago";
-        }
-        return day_len;
+        return numOfDay;
     }
 
     public static AnchorPanes getNewNotePage(){
+        detail_field.setWrapText(true);
+        
         Labels topic_label = new Labels("Note Topic", "_new_note_label");
-        Labels status_label = new Labels("Important", "_new_note_label");
+        Labels status_label = new Labels("Important", "_status_label");
         Labels detail_label = new Labels("Note Detail", "_new_note_label");
 
-        HBoxs topic_box = new HBoxs(topic_label, note_field, "_tsk_box");
+        HBoxs topic_box = new HBoxs(topic_label, topic_field, "_tsk_box");
         HBoxs detail_box = new HBoxs(detail_label, detail_field, "_tsk_box");
+        detail_box.setAlignment(Pos.TOP_CENTER);
         HBoxs status_box = new HBoxs(status_label, status_checker, "_tsk_box");
         
         VBoxs content_area = new VBoxs(topic_box, detail_box, status_box, add_btn, "_content_area");
@@ -165,15 +184,15 @@ public class Notepad {
         return noteRoot;
     }
 
-    // public static void addNewnote(){
-    //     LocalDate endDate = date.getValue();
-    //     String note_name = name_field.getText();
-    //     String st_time = stTime.format(DateTimeFormatter.ofPattern("hh:mm:ss a"));
-    //     String st_date = today.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"));
-    //     String completed = status_field.getText();
-    //     String pri = priority.getText();
-    //     String desc = desc_field.getText();
-    //     note.insertValues("note", note_name, note_detail, st_date, st_time, ed_date, ed_time, isimportant);
-    // }
+    public static void addNewnote(){
+        String note_topic = topic_field.getText();
+        String st_time = stTime.format(DateTimeFormatter.ofPattern("hh:mm:ss a"));
+        String st_date = today.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"));
+        String ed_time = "";
+        String ed_date = "";
+        String is_imp = status_field.getText();
+        String note_detail = detail_field.getText();
+        note.insertValues("note", note_topic, note_detail, st_date, st_time, ed_date, ed_time, is_imp);
+    }
 
 }
