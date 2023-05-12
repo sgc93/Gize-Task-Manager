@@ -19,41 +19,22 @@
 }
 
 .note_btn {
-  -fx-background-color: rgba(0, 195, 255, 0.382);
+  -fx-background-color: rgba(20, 0, 255, 0.3);
   -fx-text-fill: White;
   -fx-font-size: 20;
   -fx-font-weight: 600;
-  -fx-border-color: white;
+  -fx-border-color: rgba(0, 3, 74, 1);
   -fx-border-width: 0 0 0 4px;
 }
 
 .note_btn:hover {
-  -fx-background-color: rgba(0, 195, 255, 0.757);
-  -fx-border-color: rgba(255, 255, 255, 0.862);
+  -fx-background-color: rgba(0, 3, 74, 1);
+  -fx-border-color: rgba(0, 3, 74, 1);
 }
 
 .note_btn:armed {
-  -fx-background-color: rgba(0, 195, 255, 0.382);
-  -fx-border-color: white;
-}
-
-#_today_note {
-  -fx-text-fill: rgb(0, 56, 93);
-  -fx-font-size: 24;
-  -fx-font-weight: 800;
-}
-
-#_today {
-  -fx-text-fill: rgb(102, 0, 255);
-  -fx-font-size: 20;
-  -fx-font-weight: 800;
-}
-
-#_today_box {
-  -fx-border-color: rgba(0, 158, 108, 0.669);
-  -fx-border-width: 1px;
-  -fx-border-radius: 24px;
-  -fx-padding: 10;
+  -fx-background-color: rgba(12, 2, 68, 0.558);
+  -fx-border-color: rgba(0, 3, 74, 1);
 }
 
 .tsk_btn {
@@ -68,11 +49,17 @@
 .tsk_btn:armed {
   -fx-translate-y: 0;
 }
-#_note_txt {
+#_name_txt {
   -fx-text-fill: white;
-  -fx-font-size: 25;
-  -fx-font-weight: 800;
+  -fx-font-size: 22;
+  -fx-font-weight: 600;
   -fx-pref-width: 1000;
+}
+
+#_time_txt {
+  -fx-text-fill: rgb(0, 221, 255);
+  -fx-font-size: 16;
+  -fx-font-weight: 600;
 }
 
 #_note_board {
@@ -87,9 +74,6 @@
 
 #_note_box {
   -fx-padding: 0 50px;
-}
-
-#_completed {
 }
 
 .nav_btn,
@@ -171,11 +155,17 @@
   -fx-background-color: rgba(0, 0, 0, 0.2);
   -fx-border-color: black;
   -fx-text-fill: black;
+  -fx-font-size: 15;
   -fx-font-weight: 600;
   -fx-border-width: 0 0 0 3px;
   -fx-pref-height: 30;
   -fx-pref-width: 90;
   -fx-padding: 5;
+}
+
+#_status_label {
+  -fx-font-weight: 600;
+  -fx-text-fill: white;
 }
 
 #_new_note,
@@ -194,7 +184,7 @@
 }
 
 #_note_desc {
-  -fx-pref-height: 150;
+  -fx-pref-height: 450;
 }
 
 #_newTsk_btn {
