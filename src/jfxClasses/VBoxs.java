@@ -113,9 +113,23 @@ public class VBoxs extends VBox{
         setSpacing(30);
     }
 
-    public VBoxs(HBoxs topic_box, HBoxs detail_box, HBoxs status_box, Buttons add_btn, String string) {
+    public VBoxs(HBoxs topic_box, HBoxs detail_box, HBoxs status_box, Buttons add_btn, String id) {
         getChildren().addAll(topic_box, detail_box, status_box, add_btn);
         setAlignment(Pos.CENTER);
         setSpacing(30);
+        setId(id);
+    }
+
+    public VBoxs(Labels stDate_len_label, Labels stDate_label, Labels stTime_label) {
+        getChildren().addAll(stDate_len_label, stDate_label, stTime_label);
+        setAlignment(Pos.CENTER);
+        setSpacing(10);
+    }
+
+    public VBoxs(HBoxs detail_nav, VBoxs note_vbox, CheckBoxs imp_check, String id) {
+        getChildren().addAll(detail_nav, note_vbox, imp_check);
+        setAlignment(Pos.TOP_CENTER);
+        setId(id);
+        setSpacing(20);
     }
 }

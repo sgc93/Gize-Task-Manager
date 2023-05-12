@@ -124,6 +124,7 @@ public class HBoxs extends HBox{
         getChildren().addAll(new_note_btn, imp_btn, all_btn);
         setAlignment(Pos.CENTER);
         setSpacing(15);
+        setPadding(new Insets(15));
     }
 
     public HBoxs(Labels status_label, Labels name_label, VBoxs task_time_box, String id) {
@@ -135,8 +136,30 @@ public class HBoxs extends HBox{
 
     public HBoxs(Labels status_label, CheckBoxs status_checker, String classname) {
         getChildren().addAll(status_label, status_checker);
-        setAlignment(Pos.CENTER_LEFT);
+        setAlignment(Pos.CENTER);
         setSpacing(10);
     }
 
+    public HBoxs(VBoxs stDate_board, VBoxs edDate_board, String id) {
+        getChildren().addAll(stDate_board, edDate_board);
+        setAlignment(Pos.CENTER);
+        setSpacing(20);
+        setId(id);
+    }
+
+    public HBoxs(Buttons back_btn, HBoxs noteDate_board, String id) {
+        getChildren().addAll(back_btn, noteDate_board);
+        setAlignment(Pos.CENTER);
+        setSpacing(20);
+        setId(id);
+        setMargin(noteDate_board, new Insets(20));
+    }
+
+    public HBoxs(HBoxs noteDate_board, HBoxs tsk_btn, String classname) {
+        setId(classname);
+        setAlignment(Pos.CENTER);
+        getChildren().addAll(noteDate_board, tsk_btn);
+        setSpacing(20);
+        setPadding(new Insets(20));
+    }
 }
