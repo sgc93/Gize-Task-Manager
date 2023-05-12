@@ -22,4 +22,11 @@ public class Buttons extends Button{
         setTooltip(new Tooltip(tooltip));
         getStyleClass().add(classname);
     }
+
+    public Buttons(String txt, String classname, String tooltip, String id) {
+        setText(txt);
+        setTooltip(new Tooltip(tooltip));
+        getStyleClass().add(classname);
+        setId(id);
+    }
 }
