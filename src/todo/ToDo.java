@@ -31,6 +31,8 @@ import javafx.stage.Stage;
 import jfxClasses.*;
 
 public class ToDo {
+    public static String sql_board = "SELECT * FROM task";
+
     public static Buttons home_btn = new Buttons("_home_btn", "nav_btn");
     public static Buttons  back_btn = new Buttons("_back_btn", "nav_btn");
     
@@ -117,11 +119,11 @@ public class ToDo {
         // task_list.setId("_task_list_view");
         
         // task_list.setPrefWidth(1000);
-        String sql = "SELECT * FROM task";
+        
         try(
             Connection con = task.connect();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(sql);
+            ResultSet rs = st.executeQuery(sql_board);
             ){
                 while(rs.next()){
                     
@@ -133,7 +135,7 @@ public class ToDo {
                         CheckBox target_cb = (CheckBox) event.getSource();
                         for (HBox hbox : task_list.getItems()) {
                             CheckBox checkBox = (CheckBox) hbox.getChildren().get(1);
-                            if(target_cb == checkBox){
+                            if(target_cb.equals(checkBox)){
                                 target_label = (Label) hbox.getChildren().get(2);
                                 box_index = task_list.getItems().indexOf(hbox);
                             }
@@ -240,6 +242,7 @@ public class ToDo {
 
         HBoxs tsk_box = new HBoxs(task_label, task_field, "_tsk_box");
         HBoxs desc_box = new HBoxs(desc_label, desc_field, "_tsk_box");
+        desc_box.setAlignment(Pos.TOP_CENTER);
         HBoxs dueDate_box = new HBoxs(dueDate_label, date, "_tsk_box");
         HBoxs dueTime_box = new HBoxs(dueTime_label, dueTime_field, "_tsk_box");
         HBoxs pri_box = new HBoxs(pri_label, priority, "_tsk_box");
