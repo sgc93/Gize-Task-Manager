@@ -35,7 +35,7 @@ public class Note {
             String sql = "CREATE TABLE IF NOT EXISTS " + table_name + " (\n"
                     + "	note_id integer PRIMARY KEY AUTOINCREMENT,\n"
                     + "	note_name text NOT NULL,\n"
-                    + "	note_detail varchar(2000),\n"
+                    + "	note_detail varchar(3000),\n"
                     + "	st_date date,\n"
                     + "	st_time time,\n"
                     + "	ed_date date,\n"
@@ -54,19 +54,19 @@ public class Note {
         }
     }
 
-    void insertValues(String table_name, String note_name, String note_detail, String st_date, String st_time, String ed_date, String ed_time, String isimportant){
+    void insertValues(String table_name, String note_topic, String note_detail, String st_date, String st_time, String ed_date, String ed_time, String is_imp){
         String sql = "INSERT INTO " + table_name + "( note_name, note_detail, st_date, st_time, ed_date, ed_time, isimportant) VALUES(?,?,?,?,?,?,?)";
 
         try (
             Connection conn = this.connect();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, note_name);
+            pstmt.setString(1, note_topic);
             pstmt.setString(2, note_detail);
             pstmt.setString(3, st_date);
             pstmt.setString(4, st_time);
             pstmt.setString(5, ed_date);
             pstmt.setString(6, ed_time);
-            pstmt.setString(7, isimportant);
+            pstmt.setString(7, is_imp);
             pstmt.executeUpdate(); 
             System.out.println("Inserted!");
         } catch (SQLException e) {    
@@ -98,7 +98,8 @@ public class Note {
                 System.out.println("Row Updated!");
             
         } catch(SQLException e){
-            System.out.println(e);
+            e.printStackTrace();
         }
+
     }
 }
