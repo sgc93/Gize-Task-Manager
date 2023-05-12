@@ -31,6 +31,7 @@ public class TaskDetail extends Dialog<Void> {
     public static String updated_task;
     
     public TaskDetail() {
+        descriptionField.setWrapText(true);
         // edit btn
         taskField.setDisable(true);
         descriptionField.setDisable(true);
