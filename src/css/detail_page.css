@@ -15,7 +15,8 @@
   -fx-translate-y: 0;
 }
 
-#task_field {
+#task_field,
+#name_field {
   -fx-text-fill: rgb(0, 23, 97);
   -fx-font-size: 20;
   -fx-font-weight: 800;
@@ -33,7 +34,24 @@
   -fx-pref-height: 200;
 }
 
-#_task_vbox {
+#detail_field {
+  -fx-text-fill: rgb(0, 23, 97);
+  -fx-font-size: 17;
+  -fx-font-weight: 700;
+  -fx-pref-height: 300;
+}
+
+#_status_cheker {
+  -fx-background-color: rgba(0, 0, 0, 0.315);
+  -fx-text-fill: white;
+  -fx-font-size: 15;
+  -fx-font-weight: 500;
+  -fx-pref-width: 150;
+  -fx-padding: 7px;
+}
+
+#_task_vbox,
+#_Note_vbox {
   -fx-padding: 0 50px;
 }
 
@@ -75,4 +93,29 @@
   -fx-font-size: 13;
   -fx-font-weight: 400;
   -fx-pref-width: 110;
+}
+
+#_nav_board {
+  -fx-background-color: rgba(0, 0, 255, 0.299);
+  -fx-border-color: white;
+  -fx-border-width: 0 0 0 5px;
+  -fx-padding: 5px;
+}
+
+#_note_date_len,
+#_note_date,
+#_note_time {
+  -fx-text-fill: rgb(0, 209, 209);
+  -fx-font-weight: 700;
+  -fx-pref-width: 250;
+}
+
+#_note_date_len {
+  -fx-font-size: 14;
+}
+#_note_date {
+  -fx-font-size: 12;
+}
+#_note_time {
+  -fx-font-size: 8;
 }
