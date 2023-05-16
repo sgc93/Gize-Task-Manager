@@ -162,4 +162,10 @@ public class HBoxs extends HBox{
         setSpacing(20);
         setPadding(new Insets(20));
     }
+
+    public HBoxs(Labels empt_label, String string) {
+        setId(string);
+        setAlignment(Pos.CENTER);
+        getChildren().add(empt_label);
+    }
 }
