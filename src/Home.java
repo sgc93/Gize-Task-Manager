@@ -2,12 +2,13 @@ import jfxClasses.*;
 
 public class Home {
     public static Images gize_logo;
-
+    
     public static Buttons home_btn;
     public static Buttons todo_btn;
     public static Buttons note_btn;
-    public static Buttons mode_btn;
     public static Buttons logo_btn;
+    public static Buttons about_btn = new Buttons("ABOUT US", "home_btn", "See Some Detail about this app");
+    public static Buttons contact_btn = new Buttons("CONTACT US", "home_btn", "contact us for some reasen, call, mail, message, social meadia chat, ... addresses");
     
     public static AnchorPanes getHomeRoot() {
         // home button
@@ -15,7 +16,7 @@ public class Home {
         ImageViews home_img_view = new ImageViews(home_img);
         Texts home_txt = new Texts("Home", "btn_txt");
         HBoxs home_hbox = new HBoxs(home_img_view, home_txt, "nav_grid");
-
+        
         home_btn = new Buttons("_home_btn", "nav_btn");
         home_btn.setGraphic(home_hbox);
         
@@ -24,7 +25,7 @@ public class Home {
         ImageViews todo_img_view = new ImageViews(todo_img);
         Texts todo_txt = new Texts("Todo", "btn_txt");
         HBoxs todo_hbox = new HBoxs(todo_img_view, todo_txt, "nav_grid");
-
+        
         todo_btn = new Buttons("_todo_btn", "nav_btn");
         todo_btn.setGraphic(todo_hbox);
         
@@ -38,16 +39,16 @@ public class Home {
         note_btn.setGraphic(note_hbox);
 
 
-        // mode button
-        Images mode_img = new Images("resources\\icons\\sgc_mode.png");
-        ImageViews mode_img_view = new ImageViews(mode_img);
-        Texts mode_txt = new Texts("Mode", "btn_txt");
-        HBoxs mode_hbox = new HBoxs(mode_img_view, mode_txt, "nav_grid");
+        // about button
+        Images about_img = new Images("resources\\icons\\sgc_about.png");
+        ImageViews about_img_view = new ImageViews(about_img);
+        Texts about_txt = new Texts("About", "btn_txt");
+        HBoxs about_hbox = new HBoxs(about_img_view, about_txt, "nav_grid");
 
-        mode_btn = new Buttons("_mode_btn", "nav_btn");
-        mode_btn.setGraphic(mode_hbox);
+        about_btn = new Buttons("_abaut_btn", "nav_btn");
+        about_btn.setGraphic(about_hbox);
 
-        HBoxs nav_hbox = new HBoxs(home_btn, todo_btn, note_btn, mode_btn, "_nav_hbox");
+        HBoxs nav_hbox = new HBoxs(home_btn, todo_btn, note_btn, about_btn, "_nav_hbox");
 
         // Logo button
         Images logo = new Images("resources\\icons\\sgc_gize.png");
@@ -68,16 +69,7 @@ public class Home {
 
         Labels content_label = new Labels(wellcome_content, "_content_label");
 
-        Buttons about_btn = new Buttons("ABOUT US", "home_btn", "See Some Detail about this app");
-        Buttons contact_btn = new Buttons("CONTACT US", "home_btn", "contact us for some reasen, call, mail, message, social meadia chat, ... addresses");
-        Buttons help_btn = new Buttons("GET HELP", "home_btn", "get some help");
-
-        HBoxs btn_box = new HBoxs(about_btn, contact_btn, help_btn);
-
-        Buttons se_btn = new Buttons("For Software Engineering Students", "home_btn", "contact us and learn, do projects, ... with us");
-        se_btn.setId("_se_btn");
-
-        VBoxs content_area = new VBoxs(logo_hbox, content_label,btn_box, se_btn, "_content_area");
+        VBoxs content_area = new VBoxs(logo_hbox, content_label,contact_btn, "_content_area");
         AnchorPanes homeRoot = new AnchorPanes(nav_hbox, logo_btn, content_area, "_homeRoot");
 
         return homeRoot;
