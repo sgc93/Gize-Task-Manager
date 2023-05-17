@@ -14,9 +14,9 @@ public class HBoxs extends HBox{
         setSpacing(15);
     }
 
-    public HBoxs(Buttons home_btn,Buttons  new_btn,Buttons  open_btn,HBoxs search_box,Buttons  mode_btn, String id) {
+    public HBoxs(Buttons home_btn,Buttons  new_btn,Buttons  open_btn,Buttons  mode_btn, String id) {
         setId(id);
-        getChildren().addAll(home_btn, new_btn, open_btn, mode_btn, search_box);
+        getChildren().addAll(home_btn, new_btn, open_btn, mode_btn);
         setAlignment(Pos.CENTER);
         setSpacing(50);
     }
@@ -114,7 +114,7 @@ public class HBoxs extends HBox{
         setSpacing(15);
     }
 
-    public HBoxs(Buttons search_btn, TextFields search_field, String classname) {
+    public HBoxs(TextFields search_field, Buttons search_btn,  String classname) {
         getChildren().addAll(search_btn, search_field);
         setAlignment(Pos.CENTER);
         setSpacing(10);
