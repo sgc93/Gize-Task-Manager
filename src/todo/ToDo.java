@@ -301,4 +301,57 @@ public class ToDo {
         date_time_box = new HBoxs(date_label, time_label, "_date_time_box");
         return date_time_box;
     }
+
+    public static void getSearchedTask() {
+        String txt = search_field.getText();
+        String sql = "SELECT * FROM task";
+        try (
+            Connection con = Task.connect();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+        ) {
+            boolean foundExactMatch = false;
+            boolean foundCaseInsensitiveMatch = false;
+    
+            while (rs.next()) {
+                String col_value = rs.getString("task_name");
+                System.out.println(col_value);
+        
+                if (col_value.equals(txt)) {
+                    foundExactMatch = true;
+                    sql_board = "SELECT * FROM task WHERE task_name = '" + txt + "'";
+                    System.out.println("Found exact match: " + txt);
+                    displayTask();
+                    break;
+                } else if (col_value.equalsIgnoreCase(txt)) {
+                    foundCaseInsensitiveMatch = true;
+                    sql_board = "SELECT * FROM task WHERE task_name = '" + col_value + "'";
+                    System.out.println("Found case-insensitive match: " + col_value);
+                    break;
+                }
+            }
+            if (!foundExactMatch && foundCaseInsensitiveMatch) {
+                displayTask();
+            } else if (!foundExactMatch && !foundCaseInsensitiveMatch) {
+                System.out.println("No match found for: " + txt);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
+            
+
+            // ResultSetMetaData md = rs.getMetaData();
+            // int col_num  = 0;
+            // col_num = md.getColumnCount();
+            // if(col_num != 0){
+            //     System.out.println("con num: " + col_num);
+            //     sql_board = sql;
+            // } else {
+            //     System.out.println("Threre is no such task in your list!");
+            // }
+        // } catch(SQLException e){
+        //     e.printStackTrace();
+        // }
