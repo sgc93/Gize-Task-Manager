@@ -9,6 +9,7 @@ import java.util.Locale;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -20,6 +21,8 @@ public class Notepad {
     public static String sql_board = "SELECT * FROM note";
     public static Buttons home_btn = new Buttons("_home_btn", "nav_btn");
     public static Buttons  back_btn = new Buttons("_back_btn", "nav_btn");
+    public static TextFields search_field = new TextFields("_search_field");
+    public static Buttons search_btn = new Buttons("_search_btn");
 
     public static Buttons all_btn = new Buttons("All", "note_btn", "Sell All Pending notes");
     public static Buttons imp_btn = new Buttons("Important", "note_btn", "Add Weekly notes");
@@ -70,12 +73,18 @@ public class Notepad {
 
         back_btn.setGraphic(back_hbox);
 
+        // search button
+        Images search_img = new Images("resources\\icons\\search.png");
+        ImageViews search_img_view = new ImageViews(search_img);
+        search_btn.setGraphic(search_img_view);
+        HBoxs search_hbox = new HBoxs(search_field, search_btn, "nav_grid");
+
         HBoxs head_btn = new HBoxs(back_btn, home_btn);
 
         HBoxs head_hbox = new HBoxs("_head_hbox");
-        head_hbox.getChildren().addAll(head_btn, ToDo.getTimeBox());
+        head_hbox.getChildren().addAll(head_btn, search_hbox, ToDo.getTimeBox());
         head_hbox.setAlignment(Pos.CENTER_LEFT);
-        head_hbox.setSpacing(700);
+        head_hbox.setSpacing(200);
 
         // contet area
 
@@ -204,4 +213,31 @@ public class Notepad {
         note.insertValues("note", note_topic, note_detail, st_date, st_time, ed_date, ed_time, is_imp);
     }
 
+    public static void getSearchedNOte() {
+        String txt = search_field.getText();
+        String sql = "SELECT * FROM note";
+        try(
+            Connection con = Note.connect();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+        ){
+            while(rs.next()){
+                String col_value = rs.getString(2);
+                if(col_value.equals(txt)){
+                    sql_board = "SELECT * FROM note WHERE note_name = '" + txt + "'";
+                    System.out.println("from user " + txt);
+                    Notepad.displayNote();
+                    break;
+                } else if(col_value.equalsIgnoreCase(txt)){             
+                    System.out.println("from table : " + col_value);
+                    sql_board = "SELECT * FROM note WHERE note_name = '" + col_value + "'";
+                    Notepad.displayNote();
+                    break;
+                }
+            }
+        } catch(SQLException e){
+            e.printStackTrace();
+        }   
+    }
 }
+
