@@ -2,6 +2,7 @@ package jfxClasses;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
@@ -16,9 +17,9 @@ public class VBoxs extends VBox{
         setAlignment(Pos.CENTER);
     }
 
-    public VBoxs(HBoxs logo_hbox, Labels content_label,HBoxs btn_box, Buttons se_btn, String id) {
+    public VBoxs(HBoxs logo_hbox, Labels content_label,Buttons contact_btn, String id) {
         setId(id);
-        getChildren().addAll(logo_hbox, content_label, btn_box, se_btn);
+        getChildren().addAll(logo_hbox, content_label, contact_btn);
         setAlignment(Pos.CENTER);
         setSpacing(60);
     }
@@ -131,5 +132,27 @@ public class VBoxs extends VBox{
         setAlignment(Pos.TOP_CENTER);
         setId(id);
         setSpacing(20);
+    }
+
+    public VBoxs(HBoxs logo_hbox, Labels content_label, HBoxs link_box, Hyperlink repo_link, Buttons send_email, String string) {
+        setId(string);
+        getChildren().addAll(logo_hbox, content_label, link_box, repo_link, send_email);
+        setAlignment(Pos.CENTER);
+        setSpacing(60);
+    }
+
+    public VBoxs(Labels err_label,Labels topic, HBoxs sender_box, HBoxs subject_box, HBoxs body_box, HBoxs btn_box, String id) {
+        getChildren().addAll(err_label,topic, sender_box, subject_box, body_box, btn_box);
+        setAlignment(Pos.CENTER_LEFT);
+        setSpacing(23);
+        setId(id);
+        setPadding(new Insets(40));
+    }
+
+    public VBoxs(Labels content_label, HBoxs link_box, Hyperlink repo_link, String string) {
+        getChildren().addAll(content_label, link_box, repo_link);
+        setId(string);
+        setAlignment(Pos.CENTER);
+        setSpacing(30);
     }
 }

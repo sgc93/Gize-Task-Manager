@@ -3,6 +3,7 @@ package jfxClasses;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.HBox;
 
 public class HBoxs extends HBox{
@@ -167,5 +168,22 @@ public class HBoxs extends HBox{
         setId(string);
         setAlignment(Pos.CENTER);
         getChildren().add(empt_label);
+    }
+
+    public HBoxs(Hyperlink linkedin_link, Hyperlink tg_link, Hyperlink github_link) {
+        getChildren().addAll(linkedin_link, tg_link, github_link);
+        setAlignment(Pos.CENTER);
+        setSpacing(30);
+    }
+
+    public HBoxs(Buttons home_btn, String string) {
+        getChildren().add(home_btn);
+        setAlignment(Pos.CENTER);
+    }
+
+    public HBoxs(Labels body_label, TextAreas body_field) {
+        getChildren().addAll(body_label, body_field);
+        setAlignment(Pos.CENTER);
+        setSpacing(15);
     }
 }
