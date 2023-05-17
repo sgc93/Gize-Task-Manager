@@ -77,7 +77,6 @@ public class Launcher extends Application {
         ToDo.add_btn.setOnAction(event -> {
             ToDo.addNewTask();
             newTaskStage.close();
-            TaskDetail.taskDetailStage.close();
             ToDo.task_list.getItems().clear();
             ToDo.displayTask();
         });
@@ -85,7 +84,30 @@ public class Launcher extends Application {
         ToDo.com_btn.setOnAction(event -> {
             ToDo.com_btn.setStyle("-fx-backgournd-color: blue;");
             ToDo.task_list.getItems().clear();
-            ToDo.sql_board = "SELECT * FROM task WHERE  = 'important'";
+            ToDo.sql_board = "SELECT * FROM task WHERE  iscompleted = 'done'";
+            ToDo.displayTask();
+        });
+        ToDo.all_btn.setOnAction(event -> {
+            ToDo.com_btn.setStyle("-fx-backgournd-color: blue;");
+            ToDo.task_list.getItems().clear();
+            ToDo.sql_board = "SELECT * FROM task";
+            ToDo.displayTask();
+        });
+        ToDo.high_btn.setOnAction(event -> {
+            ToDo.task_list.getItems().clear();
+            ToDo.sql_board = "SELECT  * FROM task WHERE priority = 'High'";
+            ToDo.displayTask();
+        });
+        ToDo.low_btn.setOnAction(event -> {
+            ToDo.com_btn.setStyle("-fx-backgournd-color: blue;");
+            ToDo.task_list.getItems().clear();
+            ToDo.sql_board = "SELECT * FROM task WHERE  priority= 'Low'";
+            ToDo.displayTask();
+        });
+        ToDo.med_btn.setOnAction(event -> {
+            ToDo.com_btn.setStyle("-fx-backgournd-color: blue;");
+            ToDo.task_list.getItems().clear();
+            ToDo.sql_board = "SELECT * FROM task WHERE priority = 'Medium'";
             ToDo.displayTask();
         });
         
@@ -142,13 +164,11 @@ public class Launcher extends Application {
         Notepad.add_btn.setOnAction(event -> {
             Notepad.addNewnote();
             newNoteStage.close();
-            TaskDetail.taskDetailStage.close();
             Notepad.note_list.getItems().clear();
             Notepad.displayNote();
         });
 
         Notepad.imp_btn.setOnAction(event -> {
-            Notepad.imp_btn.setStyle("-fx-backgournd-color: blue;");
             Notepad.note_list.getItems().clear();
             Notepad.sql_board = "SELECT * FROM note WHERE isimportant = 'important'";
             Notepad.displayNote();
@@ -182,6 +202,7 @@ public class Launcher extends Application {
             if(NoteDetail.imp_check.isSelected()){
                 status = "important";
             }
+            System.out.println("status: " + status);
 
             String sql = "UPDATE note SET note_name = '" + note_name + "', note_detail = '" + note_detail + "', ed_date = '"+ editDate + "', ed_time = '" + editTime + "', isimportant = '" + status + "' WHERE note_name = '" + NoteDetail.updated_NoteName + "'";
             System.out.println(sql);

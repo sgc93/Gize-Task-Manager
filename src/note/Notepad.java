@@ -36,7 +36,6 @@ public class Notepad {
     static DatePickers date = new DatePickers("_new_note", today.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy")));
 
     static TextFields topic_field = new TextFields("_new_note");
-    static TextFields priority = new TextFields("_new_note");
     static TextAreas detail_field = new TextAreas("_note_desc");
     static TextFields status_field = new TextFields("normal", "_new_note");
     static TextFields dueTime_field = new TextFields(stTime.format(DateTimeFormatter.ofPattern("hh:mm:ss a")), "_new_note");
@@ -98,65 +97,75 @@ public class Notepad {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sql_board);
             ){
-                while(rs.next()){
-                    Labels status_label = new Labels("_status_label");
-                    Labels name_label = new Labels("_name_txt");
-                    Labels ed_time_label = new Labels("_time_txt");
-                    Labels time_len_label = new Labels("_time_txt");
-                    VBoxs note_time_box = new VBoxs(ed_time_label,time_len_label);
-
-                    name_label.setText(rs.getString(2));
-                    status_label.setText(rs.getString(8));
-                    String st_date = rs.getString(4);
-                    String st_time = rs.getString(5);
-                    String ed_time = rs.getString(7);
-                    String ed_date = rs.getString(6);
-                    if(ed_time.equals("") && ed_time.equals("")) {
-                        String day_len = "taken, today";
-                        long numOfDay = calcNumDays(today, rs.getString(4));
-                        if(numOfDay == 1){
-                            day_len = "taken, 1 day ago";
-                        } else if(numOfDay > 1){
-                            day_len = "taken, " + numOfDay + " days ago";
-                        }
-                        time_len_label.setText(day_len);
-                        ed_time_label.setText(rs.getString(5));
-                    } else {
-                        String day_len = "edited, today";
-                        long numOfDay = calcNumDays(today, rs.getString(6));
-                        if(numOfDay == 1){
-                            day_len = "edited, 1 day ago";
-                        }
-                        if(numOfDay > 1){
-                            day_len = "edited, " + numOfDay + " days ago";
-                        }
-                        time_len_label.setText(day_len);
-                        ed_time_label.setText(rs.getString(7));
-                    }
-
-
-                    HBoxs note_board = new HBoxs(status_label,name_label, note_time_box, "_note_board");
-                    note_board.setOnMouseClicked(event -> {
-                        HBox clickedItem = (HBox) note_list.getSelectionModel().getSelectedItem();
-                        String noteName = ((Label) clickedItem.getChildren().get(1)).getText();
-
-                        NoteDetail noteDetail = new NoteDetail();
-                        noteDetail.setNoteDetails(noteName);
-                    });
-                    
-                    notes.add(note_board);
-                }
+                if(!(rs.next())){
+                    Labels empt_label = new Labels("Empty Note List, sorry😔", "_empt_label");
+                    HBoxs empt_box = new HBoxs(empt_label, "_empt_box");
+                    notes.add(empt_box);
+                } else {
+                    do {
+                        Labels status_label = new Labels("_status_label");
+                        Labels name_label = new Labels("_name_txt");
+                        Labels ed_time_label = new Labels("_time_txt");
+                        Labels time_len_label = new Labels("_time_txt");
+                        VBoxs note_time_box = new VBoxs(ed_time_label,time_len_label);
                 
+                        name_label.setText(rs.getString(2));
+                        status_label.setText(rs.getString(8));
+                        String st_date = rs.getString(4);
+                        String st_time = rs.getString(5);
+                        String ed_time = rs.getString(7);
+                        String ed_date = rs.getString(6);
+                        if(ed_time.equals("") && ed_time.equals("")) {
+                            String day_len = "taken, today";
+                            long numOfDay = calcNumDays(today, rs.getString(4));
+                            if(numOfDay == 1){
+                                day_len = "taken, 1 day ago";
+                            } else if(numOfDay > 1){
+                                day_len = "taken, " + numOfDay + " days ago";
+                            }
+                            time_len_label.setText(day_len);
+                            ed_time_label.setText(rs.getString(5));
+                        } else {
+                            String day_len = "edited, today";
+                            long numOfDay = calcNumDays(today, rs.getString(6));
+                            if(numOfDay == 1){
+                                day_len = "edited, 1 day ago";
+                            }
+                            if(numOfDay > 1){
+                                day_len = "edited, " + numOfDay + " days ago";
+                            }
+                            time_len_label.setText(day_len);
+                            ed_time_label.setText(rs.getString(7));
+                        }
+                
+                
+                        HBoxs note_board = new HBoxs(status_label,name_label, note_time_box, "_note_board");
+                        note_board.setOnMouseClicked(event -> {
+                            HBox clickedItem = (HBox) note_list.getSelectionModel().getSelectedItem();
+                            String noteName = ((Label) clickedItem.getChildren().get(1)).getText();
+                            String status =((Label) clickedItem.getChildren().get(0)).getText();
+                
+                            NoteDetail noteDetail = new NoteDetail();
+                            noteDetail.setNoteDetails(noteName, status);
+                        });
+                        notes.add(note_board);
+                    }while(rs.next());
+                }
                 note_list.setItems(notes);
                 int size = note_list.getItems().size();
                 if(size < 5){
                     double height = size * 85;
                     note_list.setPrefHeight(height);
+                    System.out.println("yes, it size is < 5" + size);
+                } else {
+                    double height = size * 85;
+                    note_list.setPrefHeight(height);
+                    System.out.println("no it size is > 5" + size);
                 }
-
+                
             } catch(SQLException e){
                 System.err.println(e.getMessage());
-        }
+            }
     }
 
     static long calcNumDays(LocalDate today, String str_date) {

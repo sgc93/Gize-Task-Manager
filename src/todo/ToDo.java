@@ -39,9 +39,9 @@ public class ToDo {
     public static Buttons new_task_btn = new Buttons("New Task", "task_btn", "Add New Task");
     public static Buttons com_btn = new Buttons("Completed", "task_btn", "See All Completed tasks");
     public static Buttons all_btn = new Buttons("All Tasks", "task_btn", "Sell All Pending tasks");
-    public static Buttons week_btn = new Buttons("Weekly", "task_btn", "Add Weekly tasks");
-    public static Buttons month_btn = new Buttons("Monthly", "task_btn", "Add Monthly tasks");
-    public static Buttons year_btn = new Buttons("Yearly", "task_btn", "Add Yearly tasks");
+    public static Buttons high_btn = new Buttons("High pri.", "task_btn", "Add Weekly tasks");
+    public static Buttons med_btn = new Buttons("Medium pri", "task_btn", "Add Monthly tasks");
+    public static Buttons low_btn = new Buttons("Low pri", "task_btn", "Add Yearly tasks");
     
     public static HBoxs date_time_box;
     
@@ -103,7 +103,7 @@ public class ToDo {
         today.setText(day_name);
         VBoxs today_box = new VBoxs(today_label, today, "_today_box");
 
-        HBoxs date_box = new HBoxs(new_task_btn, com_btn, all_btn, today_box, week_btn, month_btn, year_btn, "_date_hbox");
+        HBoxs date_box = new HBoxs(new_task_btn, com_btn, all_btn, today_box, high_btn, med_btn, low_btn, "_date_hbox");
     
         VBoxs content_area = new VBoxs(date_box,task_box, "_content_area");
         AnchorPanes todoRoot = new AnchorPanes(head_hbox, content_area, "_todoRoot");
@@ -125,69 +125,75 @@ public class ToDo {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sql_board);
             ){
-                while(rs.next()){
-                    
-                    Labels p_label = new Labels("_pri_txt");
-                    CheckBoxs status_checker = new CheckBoxs("_completed"); 
-                    status_checker.setOnAction(event -> {
-                        int box_index = 0;
-                        Label target_label = new Label();
-                        CheckBox target_cb = (CheckBox) event.getSource();
-                        for (HBox hbox : task_list.getItems()) {
-                            CheckBox checkBox = (CheckBox) hbox.getChildren().get(1);
-                            if(target_cb.equals(checkBox)){
-                                target_label = (Label) hbox.getChildren().get(2);
-                                box_index = task_list.getItems().indexOf(hbox);
+                if(!(rs.next())){
+                    Labels empt_label = new Labels("Empty List, sorry😔", "_empt_label");
+                    HBoxs empt_box = new HBoxs(empt_label, "_empt_box");
+                    tasks.add(empt_box);
+                } else {
+                    do {
+                        Labels p_label = new Labels("_pri_txt");
+                        CheckBoxs status_checker = new CheckBoxs("_completed"); 
+                        status_checker.setOnAction(event -> {
+                            int box_index = 0;
+                            Label target_label = new Label();
+                            CheckBox target_cb = (CheckBox) event.getSource();
+                            for (HBox hbox : task_list.getItems()) {
+                                CheckBox checkBox = (CheckBox) hbox.getChildren().get(1);
+                                if(target_cb.equals(checkBox)){
+                                    target_label = (Label) hbox.getChildren().get(2);
+                                    box_index = task_list.getItems().indexOf(hbox);
+                                }
                             }
+                            
+                            String task_txt = target_label.getText();
+                            if(target_cb.isSelected() == true){
+                                String sql_st = "UPDATE task SET iscompleted = 'done' WHERE task_name = '" + task_txt + "'";
+                                Task.updateRow(sql_st);
+                                ((Label) ((VBox) task_list.getItems().get(box_index).getChildren().get(0)).getChildren().get(1)).setText("done");
+                                target_label.setFont(Font.font(10));
+                
+                            } else if(target_cb.isSelected() == false){
+                                String sql_st = "UPDATE task SET iscompleted = 'incomplete' WHERE task_name = '" + task_txt + "'";
+                                Task.updateRow(sql_st);
+                                ((Label) ((VBox) task_list.getItems().get(box_index).getChildren().get(0)).getChildren().get(1)).setText("incomplete");
+                                target_label.setFont(Font.font(22));
+                            }
+                        });
+                        Labels status_label = new Labels("_time_txt");
+                        VBoxs status_pri_box = new VBoxs(p_label, status_label);
+                        Labels task_label = new Labels("_task_txt");
+                        Labels time_label = new Labels("_time_txt");
+                        Labels time_len_label = new Labels("_time_txt");
+                        VBoxs task_time_box = new VBoxs(time_len_label, time_label);
+                
+                        p_label.setText(rs.getString(8));
+                        status_label.setText(rs.getString(7));
+                        time_label.setText(rs.getString(4));
+                        task_label.setText(rs.getString(2));
+                        time_len_label.setText(calcNumDays(today, rs.getString(3)));
+                
+                        if(status_label.getText().equals("done")){
+                            status_checker.setSelected(true);
+                        } else if(status_label.getText().equals("incomplete")){
+                            status_checker.setSelected(false);
+                        } else{
+                            System.err.println("Status : " + status_label.getText());
                         }
+                
+                        HBoxs task_board = new HBoxs(status_pri_box, status_checker,task_label, task_time_box, "_task_board");
+                        task_board.setOnMouseClicked(event -> {
+                            HBox clickedItem = (HBox) task_list.getSelectionModel().getSelectedItem();
+                
+                String priority = ((Label) ((VBox) clickedItem.getChildren().get(0)).getChildren().get(0)).getText();
+                            String taskName = ((Label) clickedItem.getChildren().get(2)).getText();
+                
+                            TaskDetail taskDetail = new TaskDetail();
+                            taskDetail.setTaskDetails(priority, "2023-04-6", taskName, "");
+                        });
                         
-                        String task_txt = target_label.getText();
-                        if(target_cb.isSelected() == true){
-                            String sql_st = "UPDATE task SET iscompleted = 'done' WHERE task_name = '" + task_txt + "'";
-                            Task.updateRow(sql_st);
-                            ((Label) ((VBox) task_list.getItems().get(box_index).getChildren().get(0)).getChildren().get(1)).setText("done");
-                            target_label.setFont(Font.font(10));
-
-                        } else if(target_cb.isSelected() == false){
-                            String sql_st = "UPDATE task SET iscompleted = 'incomplete' WHERE task_name = '" + task_txt + "'";
-                            Task.updateRow(sql_st);
-                            ((Label) ((VBox) task_list.getItems().get(box_index).getChildren().get(0)).getChildren().get(1)).setText("incomplete");
-                            target_label.setFont(Font.font(22));
-                        }
-                    });
-                    Labels status_label = new Labels("_time_txt");
-                    VBoxs status_pri_box = new VBoxs(p_label, status_label);
-                    Labels task_label = new Labels("_task_txt");
-                    Labels time_label = new Labels("_time_txt");
-                    Labels time_len_label = new Labels("_time_txt");
-                    VBoxs task_time_box = new VBoxs(time_len_label, time_label);
-
-                    p_label.setText(rs.getString(8));
-                    status_label.setText(rs.getString(7));
-                    time_label.setText(rs.getString(4));
-                    task_label.setText(rs.getString(2));
-                    time_len_label.setText(calcNumDays(today, rs.getString(3)));
-
-                    // if(status_label.getText() == "done"){
-                    //     status_checker.setSelected(true);
-                    // } else if(status_label.getText() == "incomplete"){
-                    //     status_checker.setSelected(false);
-                    // } else{
-                    //     System.err.println("Status : " + status_label.getText());
-                    // }
-
-                    HBoxs task_board = new HBoxs(status_pri_box, status_checker,task_label, task_time_box, "_task_board");
-                    task_board.setOnMouseClicked(event -> {
-                        HBox clickedItem = (HBox) task_list.getSelectionModel().getSelectedItem();
-
-            String priority = ((Label) ((VBox) clickedItem.getChildren().get(0)).getChildren().get(0)).getText();
-                        String taskName = ((Label) clickedItem.getChildren().get(2)).getText();
-
-                        TaskDetail taskDetail = new TaskDetail();
-                        taskDetail.setTaskDetails(priority, "2023-04-6", taskName, "");
-                    });
-                    
-                    tasks.add(task_board);
+                        tasks.add(task_board);
+                        
+                    }while(rs.next());
                 }
                 
                 task_list.setItems(tasks);
@@ -195,25 +201,11 @@ public class ToDo {
                 if(size < 5){
                     double height = size * 85;
                     task_list.setPrefHeight(height);
+                } else {
+                    double height = size * 85;
+                    task_list.setPrefHeight(height);
                 }
                 
-
-                List<Boolean> status = new ArrayList<Boolean>();
-
-                for(HBox box : task_list.getItems()){
-                    System.out.println(((Label) ((VBox) box.getChildren().get(0)).getChildren().get(1)).getText());
-                    if(((Label) ((VBox) box.getChildren().get(0)).getChildren().get(1)).getText() == "done"){                
-                        status.add(true);
-                        ((CheckBox) box.getChildren().get(1)).setSelected(true);
-                    } else{
-                        status.add(false);
-                        ((CheckBox) box.getChildren().get(1)).setSelected(false);
-                    }
-                }
-                for(int j=0; j<size; j++){
-                    ((CheckBox) task_list.getItems().get(j).getChildren().get(1)).setSelected(status.get(j));
-                }
-
             } catch(SQLException e){
                 System.err.println(e.getMessage());
         }

@@ -29,7 +29,6 @@ public class NoteDetail {
     public static TextAreas detail_field = new TextAreas("detail_field");
 
     public static CheckBoxs imp_check = new CheckBoxs("_status_cheker");
-    public static CheckBoxs normal_check = new CheckBoxs("_status_cheker");
 
     public static Buttons edit_btn = new Buttons("_edit_btn", "tsk_btn");
     public static Buttons delete_btn = new Buttons("_delete_btn", "tsk_btn");
@@ -41,14 +40,13 @@ public class NoteDetail {
     
     public NoteDetail() {
         detail_field.setWrapText(true);
-        imp_check.setText("Important");
         // metadata boxes
         VBoxs stDate_board = new VBoxs(stDate_len_label, stDate_label, stTime_label);
         VBoxs edDate_board = new VBoxs(edDate_len_label, edDate_label, edTime_label);
         HBoxs noteDate_board = new HBoxs(stDate_board, edDate_board, "_noteDate_board");
         // edit btn
-        topic_field.setDisable(true);
-        detail_field.setDisable(true);
+        topic_field.setEditable(false);
+        detail_field.setEditable(false);
         save_btn.setDisable(true);
         imp_check.setDisable(true);
 
@@ -57,8 +55,8 @@ public class NoteDetail {
         edit_btn.setGraphic(edit_img_view);
         edit_btn.setOnAction(event -> {
             updated_NoteName = topic_field.getText();
-            topic_field.setDisable(false);
-            detail_field.setDisable(false);
+            topic_field.setEditable(true);
+            detail_field.setEditable(true);
             save_btn.setDisable(false);
             imp_check.setDisable(false);
         });
@@ -89,9 +87,10 @@ public class NoteDetail {
         NoteDetailStage.setAlwaysOnTop(true);
     }
 
-    public void setNoteDetails(String NoteName) {
+    public void setNoteDetails(String NoteName, String status) {
         String sql = "SELECT * FROM Note WHERE note_name = '" + NoteName + "'";
         System.out.println(sql);
+        System.out.println("status: " + status);
         try(
             Connection con = Note.connect();
             Statement st = con.createStatement();
@@ -102,15 +101,17 @@ public class NoteDetail {
             
             topic_field.setText(rs.getString(2));
             detail_field.setText(rs.getString(3));
-            // stDate_len_label.setText("-> taken, " + Notepad.calcNumDays(today,rs.getString(6)) + " day ago.");
-            // edDate_len_label.setText("-> edited, " + Notepad.calcNumDays(today,rs.getString(6)) + " day ago.");
             stDate_label.setText(rs.getString(4));
             stTime_label.setText(rs.getString(5));
             edDate_label.setText(rs.getString("ed_date"));
             edTime_label.setText(rs.getString("ed_time"));
             
-            if(rs.getString(8) == "important"){
+            if(rs.getString(8).equalsIgnoreCase("important")){
                 imp_check.setSelected(true);
+                System.out.println("Status: true");
+            } else {
+                imp_check.setSelected(false);
+                System.out.println("status: false");
             }
 
             String stday_len = "-> It has been taken today";

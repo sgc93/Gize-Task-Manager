@@ -33,14 +33,14 @@ public class TaskDetail extends Dialog<Void> {
     public TaskDetail() {
         descriptionField.setWrapText(true);
         // edit btn
-        taskField.setDisable(true);
-        descriptionField.setDisable(true);
-        startDateLabel.setDisable(true);
-        endDateLabel.setDisable(true);
-        startTimeLabel.setDisable(true);
-        endTimeLabel.setDisable(true);
-        priorityLabel.setDisable(true);
-        statusLabel.setDisable(true);
+        taskField.setEditable(false);
+        descriptionField.setEditable(false);
+        startDateLabel.setEditable(false);
+        endDateLabel.setEditable(false);
+        startTimeLabel.setEditable(false);
+        endTimeLabel.setEditable(false);
+        priorityLabel.setEditable(false);
+        statusLabel.setEditable(false);
         save_btn.setDisable(true);
 
         Images edit_img = new Images("resources\\icons\\edit.png");
@@ -48,14 +48,14 @@ public class TaskDetail extends Dialog<Void> {
         edit_btn.setGraphic(edit_img_view);
         edit_btn.setOnAction(event -> {
             updated_task = taskField.getText();
-            taskField.setDisable(false);
-            descriptionField.setDisable(false);
-            startDateLabel.setDisable(false);
-            endDateLabel.setDisable(false);
-            startTimeLabel.setDisable(false);
-            endTimeLabel.setDisable(false);
-            priorityLabel.setDisable(false);
-            statusLabel.setDisable(false);
+            taskField.setEditable(true);
+            descriptionField.setEditable(true);
+            startDateLabel.setEditable(true);
+            endDateLabel.setEditable(true);
+            startTimeLabel.setEditable(true);
+            endTimeLabel.setEditable(true);
+            priorityLabel.setEditable(true);
+            statusLabel.setEditable(true);
             save_btn.setDisable(false);
         });
 
