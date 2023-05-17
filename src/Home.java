@@ -6,12 +6,9 @@ public class Home {
     public static Buttons home_btn;
     public static Buttons todo_btn;
     public static Buttons note_btn;
-    public static Buttons search_btn;
     public static Buttons mode_btn;
     public static Buttons logo_btn;
-
-    public static TextFields search_field = new TextFields("_search_field");
-
+    
     public static AnchorPanes getHomeRoot() {
         // home button
         Images home_img = new Images("resources\\icons\\sgc_home.png");
@@ -40,12 +37,6 @@ public class Home {
         note_btn = new Buttons("_note_btn", "nav_btn");
         note_btn.setGraphic(note_hbox);
 
-        // search button
-        Images search_img = new Images("resources\\icons\\search.png");
-        ImageViews search_img_view = new ImageViews(search_img);
-        search_btn = new Buttons("_search_btn");
-        search_btn.setGraphic(search_img_view);
-        HBoxs search_hbox = new HBoxs(search_btn, search_field, "nav_grid");
 
         // mode button
         Images mode_img = new Images("resources\\icons\\sgc_mode.png");
@@ -56,7 +47,7 @@ public class Home {
         mode_btn = new Buttons("_mode_btn", "nav_btn");
         mode_btn.setGraphic(mode_hbox);
 
-        HBoxs nav_hbox = new HBoxs(home_btn, todo_btn, note_btn, search_hbox, mode_btn, "_nav_hbox");
+        HBoxs nav_hbox = new HBoxs(home_btn, todo_btn, note_btn, mode_btn, "_nav_hbox");
 
         // Logo button
         Images logo = new Images("resources\\icons\\sgc_gize.png");
