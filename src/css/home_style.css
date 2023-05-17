@@ -1,5 +1,5 @@
 #_homeRoot {
-  -fx-background-color: rgb(0, 0, 0);
+  -fx-background-color: linear-gradient(to left, #5db6cf, #3a4bb9);
 }
 
 #_todolist {
@@ -12,10 +12,6 @@
   -fx-background-color: rgba(255, 255, 255, 0.245);
   -fx-border-color: #ffffff;
   -fx-border-width: 3px 0 0 0;
-}
-
-#_content_area,
-#_nav_hbox {
 }
 
 .nav_btn,
@@ -84,4 +80,64 @@
 
 #_se_btn:hover {
   -fx-text-fill: rgb(255, 255, 255);
+}
+
+#_repo_link {
+  -fx-text-fill: white;
+  -fx-font-weight: 700;
+}
+
+#_email_root {
+  -fx-background-color: linear-gradient(to left, #5db6cf, #3a4bb9);
+}
+
+.email_btn {
+  -fx-background-color: rgba(255, 255, 255, 0.245);
+  -fx-pref-width: 170;
+  -fx-pref-height: 50;
+}
+
+.email_btn:hover {
+  -fx-background-color: rgba(255, 255, 255, 0.145);
+}
+
+#_email_topic,
+#_email_label {
+  -fx-text-fill: white;
+  -fx-font-size: 16;
+  -fx-font-weight: 600;
+  -fx-background-color: rgba(255, 255, 255, 0.245);
+  -fx-border-color: white;
+  -fx-border-width: 0 0 0 3px;
+  -fx-padding: 0 0 0 10px;
+}
+
+#_err_label {
+  -fx-text-fill: rgb(255, 27, 27);
+  -fx-font-size: 16;
+  -fx-font-weight: 600;
+  -fx-padding: 0 0 0 10px;
+}
+
+#_email_topic,
+#_err_label {
+  -fx-pref-width: 300;
+  -fx-pref-heght: 25;
+}
+
+#_email_label {
+  -fx-pref-width: 140;
+  -fx-pref-heght: 25;
+}
+
+#_sender,
+#_subject,
+#_body {
+  -fx-background-color: rgba(87, 128, 164, 0.378);
+  -fx-border-color: rgb(0, 0, 80);
+  -fx-border-width: 2;
+  -fx-text-fill: rgb(0, 32, 88);
+  -fx-font-size: 14;
+  -fx-font-weight: 600;
+  -fx-pref-width: 350;
 }

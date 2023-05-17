@@ -84,7 +84,7 @@
 }
 
 .nav_btn:hover {
-  -fx-background-color: linear-gradient(to right, #00a2ff5e, #aeff00);
+  -fx-background-color: rgba(255, 255, 255, 0.245);
 }
 
 #_new_btn:armed,
