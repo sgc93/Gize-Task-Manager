@@ -32,9 +32,11 @@ import jfxClasses.*;
 
 public class ToDo {
     public static String sql_board = "SELECT * FROM task";
-
+    
     public static Buttons home_btn = new Buttons("_home_btn", "nav_btn");
     public static Buttons  back_btn = new Buttons("_back_btn", "nav_btn");
+    public static TextFields search_field = new TextFields("_search_field");
+    public static Buttons search_btn = new Buttons("_search_btn");
     
     public static Buttons new_task_btn = new Buttons("New Task", "task_btn", "Add New Task");
     public static Buttons com_btn = new Buttons("Completed", "task_btn", "See All Completed tasks");
@@ -86,12 +88,18 @@ public class ToDo {
 
         back_btn.setGraphic(back_hbox);
 
+        // search button
+        Images search_img = new Images("resources\\icons\\search.png");
+        ImageViews search_img_view = new ImageViews(search_img);
+        search_btn.setGraphic(search_img_view);
+        HBoxs search_hbox = new HBoxs(search_field, search_btn, "nav_grid");
+
         HBoxs head_btn = new HBoxs(back_btn, home_btn);
 
         HBoxs head_hbox = new HBoxs("_head_hbox");
-        head_hbox.getChildren().addAll(head_btn, getTimeBox());
+        head_hbox.getChildren().addAll(head_btn,search_hbox, getTimeBox());
         head_hbox.setAlignment(Pos.CENTER_LEFT);
-        head_hbox.setSpacing(700);
+        head_hbox.setSpacing(200);
 
         // contet area
 
