@@ -110,6 +110,13 @@ public class Launcher extends Application {
             ToDo.sql_board = "SELECT * FROM task WHERE priority = 'Medium'";
             ToDo.displayTask();
         });
+
+        ToDo.search_btn.setOnAction(event -> {
+            ToDo.task_list.getItems().clear();
+            ToDo.getSearchedTask();
+        });
+        
+
         
         // for task detail window buttons
 
@@ -179,6 +186,11 @@ public class Launcher extends Application {
             Notepad.note_list.getItems().clear();
             Notepad.sql_board = "SELECT * FROM note";
             Notepad.displayNote();
+        });
+
+        Notepad.search_btn.setOnAction(event -> {
+            Notepad.note_list.getItems().clear();
+            Notepad.getSearchedNOte();
         });
 
         // for note detail buttons
