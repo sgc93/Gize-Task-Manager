@@ -16,6 +16,7 @@ public class Launcher extends Application {
     Scene todoScene;
     Scene new_task_Scene;
     Scene new_note_Scene;
+    Scene about_scene;
     public static void main(String[] args) throws Exception {
         
         launch(args);
@@ -37,6 +38,8 @@ public class Launcher extends Application {
         Stage newTaskStage = new Stage();
         Stage newNoteStage = new Stage();
     todoScene.getStylesheets().add(getClass().getResource("css\\todoPage_style.css").toExternalForm());
+        about_scene = new Scene(AboutPage.getAboutPage(), 1400, 700);
+        about_scene.getStylesheets().add(getClass().getResource("css\\home_style.css").toExternalForm());
         HomeStage.setScene(homeScene);
         HomeStage.getIcons().add(Home.gize_logo);
         HomeStage.setTitle("Wellcome to Gize Manager    |   Home Page");
@@ -52,6 +55,31 @@ public class Launcher extends Application {
             HomeStage.setScene(noteScene);
             HomeStage.setTitle("Add New ...");
         });
+        Home.about_btn.setOnAction(event -> {
+            HomeStage.setScene(about_scene);
+            HomeStage.setTitle("About ... ");
+        });
+        Home.contact_btn.setOnAction(event -> {
+            HomeStage.setScene(about_scene);
+            HomeStage.setTitle("About ... ");
+        });
+        Home.logo_btn.setOnAction(event -> {
+            HomeStage.setScene(about_scene);
+            HomeStage.setTitle("About ... ");
+        });
+        // for about page home button
+        AboutPage.home_btn.setOnAction(event -> {
+            HomeStage.setScene(homeScene);
+            HomeStage.setTitle("Wellcome to Gize Manager    |   Home Page");
+        });
+        AboutPage.send_btn.setOnAction(event ->{
+            Stage emailStage = new Stage();
+            Scene emailScene = new Scene(Email.getEmailRoot(), 600, 500);
+            emailScene.getStylesheets().add(getClass().getResource("css\\home_style.css").toExternalForm());
+            emailStage.setScene(emailScene);
+            emailStage.setTitle("Send email to smachewgedefaw@gmail.com");
+            emailStage.show();
+         });
 
         // for todo list board buttons
 
@@ -223,6 +251,21 @@ public class Launcher extends Application {
             NoteDetail.NoteDetailStage.close();
             Notepad.note_list.getItems().clear();
             Notepad.displayNote();
+        });
+
+        // handling email
+
+        Email.send_btn.setOnAction(event ->{
+            String sender_name = Email.sender_field.getText();
+            String subject = Email.subject_field.getText();
+            String body = Email.body_field.getText();
+            if(sender_name.equals("") || subject.equals("") || body.equals("")){
+                Email.err_label.setText("*Empty field! please fill all of them.");
+            } else {
+                String mailtoLink = "mailto:enanusgc@gmail.com" + "?subject=" + subject + "&body=" + body;
+                getHostServices().showDocument(mailtoLink);
+                Email.body_field.setText("sent!");
+            } 
         });
     }    
 }
