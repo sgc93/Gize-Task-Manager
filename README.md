@@ -4,6 +4,7 @@
 ✔️ user friendly
 ## Fully functional todo list and note taking software (desktop app)
 ![image](https://github.com/sgc93/Gize-Task-Manager/blob/main/Screenshoots/wellcomePage.png)
+![image](https://github.com/sgc93/Gize-Task-Manager/blob/main/Screenshoots/noteboardPage.png)
 Languages:-
 <ul>
   <li> Backend : java </li>
@@ -27,6 +28,8 @@ Languages:-
   <ul> 
   <li> it contains a clock board that can work 24/7 </li>
   <li> it enables the user to send an email ( has email board ) for the developer or owner</li> 
+  <li> it notifies where the todo has been listed or the note has been take (like taken, 3 days ago) </ul>
+  <li> it also display on the noteboard the recent date when it has been edited </li>
   </ul>
   
 ## Links
