@@ -5,7 +5,7 @@
 ## Fully functional todo list and note taking software (desktop app)
 ![image](https://github.com/sgc93/Gize-Task-Manager/blob/main/Screenshoots/wellcomePage.png)
 ![image](https://github.com/sgc93/Gize-Task-Manager/blob/main/Screenshoots/todoBoard.png)
-<a href="https://github.com/sgc93/Gize-Task-Manager/tree/main/Screenshoots"> See More screenshots</a>
+<a href="https://github.com/sgc93/Gize-Task-Manager/tree/main/Screenshoots"> See More screenshots</a> <br />
 Languages:-
 <ul>
   <li> Backend : java </li>
