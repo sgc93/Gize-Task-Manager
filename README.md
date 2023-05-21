@@ -4,7 +4,7 @@
 ✔️ user friendly
 ## Fully functional todo list and note taking software (desktop app)
 ![image](https://github.com/sgc93/Gize-Task-Manager/blob/main/Screenshoots/wellcomePage.png)
-![image](https://github.com/sgc93/Gize-Task-Manager/blob/main/Screenshoots/noteboardPage.png)
+![image](https://github.com/sgc93/Gize-Task-Manager/blob/main/Screenshoots/noteBoard.png)
 Languages:-
 <ul>
   <li> Backend : java </li>
@@ -17,8 +17,8 @@ Languages:-
   <li> enables to perform CRUD functionalities </li>
   <li> enables to display tasks and taken notes in categorized way like:-
       <ul>
-        <li> displaying only completed tasks alone in addition to displaying all at once</li>
-        <li> displaying notes based on their mark of importanceness, their priority (high, medium and low) and all at once </li>
+        <li> displaying only important notes alone in addition to displaying all at once</li>
+        <li> displaying todo list tasks based on their mark of completeness, their priority (high, medium and low) and all at once </li>
       </ul></li>
   <li> takes a metadata by it self about notes like when do they listed or taken - it takes start date and time by itself </li>
   <li> enables to <b> search </b> todo tasks and notes by their topic </li>
