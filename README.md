@@ -10,7 +10,6 @@ Languages:-
   <li> Database : SQlite (btw I found it interesting for such kind of project)
 </ul>
  
-
 ## Basic functionalities
 <ul>
   <li> enables to perform CRUD functionalities </li>
@@ -31,4 +30,4 @@ Languages:-
   
 ## Links
 
-<a href=""> Screenshot </a>    |   <a href="https://www.figma.com/file/qwhp9yWQvWAVxU6JE5kx1O/ToDoList?type=design&node-id=0%3A1&t=1jegm1lkgZeZw71D-1"> Figma Desing </a>   |   <a href=""> Project Board </a>
+<a href=""> Screenshots </a>    |   <a href="https://www.figma.com/file/qwhp9yWQvWAVxU6JE5kx1O/ToDoList?type=design&node-id=0%3A1&t=1jegm1lkgZeZw71D-1"> Figma Design </a>   |   <a href="https://github.com/users/sgc93/projects/3"> Project Board </a>
