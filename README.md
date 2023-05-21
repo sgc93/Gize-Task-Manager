@@ -5,6 +5,7 @@
 ## Fully functional todo list and note taking software (desktop app)
 ![image](https://github.com/sgc93/Gize-Task-Manager/blob/main/Screenshoots/wellcomePage.png)
 ![image](https://github.com/sgc93/Gize-Task-Manager/blob/main/Screenshoots/todoBoard.png)
+<a href="https://github.com/sgc93/Gize-Task-Manager/tree/main/Screenshoots"> See More screenshots</a>
 Languages:-
 <ul>
   <li> Backend : java </li>
@@ -34,4 +35,4 @@ Languages:-
   
 ## Links
 
-<a href=""> Screenshots </a>    |   <a href="https://www.figma.com/file/qwhp9yWQvWAVxU6JE5kx1O/ToDoList?type=design&node-id=0%3A1&t=1jegm1lkgZeZw71D-1"> Figma Design </a>   |   <a href="https://github.com/users/sgc93/projects/3"> Project Board </a>
+<a href="https://github.com/sgc93/Gize-Task-Manager/tree/main/Screenshoots"> Screenshots </a>    |   <a href="https://www.figma.com/file/qwhp9yWQvWAVxU6JE5kx1O/ToDoList?type=design&node-id=0%3A1&t=1jegm1lkgZeZw71D-1"> Figma Design </a>   |   <a href="https://github.com/users/sgc93/projects/3"> Project Board </a>
